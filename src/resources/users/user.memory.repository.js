@@ -1,4 +1,5 @@
 const User = require('./user.model');
+const taskService = require('../tasks/task.service');
 
 let usersRepository = [];
 
@@ -29,6 +30,11 @@ const deleteById = (userId) => {
   const user = usersRepository.find((currentUser) => currentUser.id === userId);
   if (user) {
     const index = usersRepository.indexOf(user);
+
+    const usersTasks = taskService.getAllByUserId(user.id);
+
+    taskService.reassignUserTasks(usersTasks);
+
     return usersRepository.splice(index, 1);
   }
   return null;

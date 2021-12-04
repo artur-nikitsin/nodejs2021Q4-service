@@ -7,8 +7,14 @@ const getAll = () => taskRepository;
 const getOneById = (taskId) =>
   taskRepository.find((task) => task.id === taskId);
 
-const create = (taskData) => {
-  const { title, order, description, userId, boardId, columnId } = taskData;
+const getAllByUserId = (userId) =>
+  taskRepository.filter((task) => task.userId === userId);
+
+const getAllByBoardId = (boardId) =>
+  taskRepository.filter((task) => task.boardId === boardId);
+
+const create = ({ taskData, boardId }) => {
+  const { title, order, description, userId, columnId } = taskData;
   const newTask = new Task({
     title,
     order,
@@ -44,6 +50,8 @@ const deleteById = (taskId) => {
 module.exports = {
   getAll,
   getOneById,
+  getAllByUserId,
+  getAllByBoardId,
   create,
   update,
   deleteById,

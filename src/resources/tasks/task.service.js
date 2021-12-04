@@ -22,8 +22,14 @@ const getOneById = ({ request, reply }) => {
   }
 };
 
+const getAllByUserId = (userId) => taskRepository.getAllByUserId(userId);
+const getAllByBoardId = (boardId) => taskRepository.getAllByBoardId(boardId);
+
 const create = ({ request, reply }) => {
-  const newTask = taskRepository.create(request.body);
+  const newTask = taskRepository.create({
+    taskData: request.body,
+    boardId: request.params.boardId,
+  });
   if (newTask) {
     reply.code(201);
     reply.send(newTask);
@@ -62,4 +68,29 @@ const deleteTask = ({ request, reply }) => {
   }
 };
 
-module.exports = { getAll, create, getOneById, updateTask, deleteTask };
+const reassignUserTasks = (usersTasks) => {
+  usersTasks.forEach((task) =>
+    taskRepository.update({
+      taskId: task.id,
+      updatedTaskData: { ...task, userId: null },
+    })
+  );
+};
+
+const deleteBoardsTasks = (boardTasks) => {
+  boardTasks.forEach((boardTask) => {
+    taskRepository.deleteById(boardTask.id);
+  });
+};
+
+module.exports = {
+  getAll,
+  getAllByUserId,
+  getAllByBoardId,
+  create,
+  getOneById,
+  updateTask,
+  deleteTask,
+  reassignUserTasks,
+  deleteBoardsTasks,
+};
