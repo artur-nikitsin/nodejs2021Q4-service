@@ -7,8 +7,8 @@ const getAll = () => taskRepository;
 const getOneById = (taskId) =>
   taskRepository.find((task) => task.id === taskId);
 
-const getAllByUserId = (userId) =>
-  taskRepository.filter((task) => task.userId === userId);
+const getAllByUserId = (taskId) =>
+  taskRepository.filter((task) => task.userId === taskId);
 
 const getAllByBoardId = (boardId) =>
   taskRepository.filter((task) => task.boardId === boardId);
