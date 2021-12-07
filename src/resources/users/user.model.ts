@@ -1,13 +1,18 @@
 import { v4 } from 'uuid';
 
-interface User {
+interface UserInterface {
   id: string;
   name: string;
   login: string;
   password: string;
 }
 
-class User {
+class User implements UserInterface {
+  public id: string;
+  public name: string;
+  public login: string;
+  public password: string;
+
   constructor({ name = 'name', login = 'login', password = 'password' } = {}) {
     this.id = v4.uuidv4();
     this.name = name;
