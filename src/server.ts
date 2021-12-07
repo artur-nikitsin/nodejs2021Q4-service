@@ -1,7 +1,10 @@
-const app = require('./app');
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
-const port = process.env.PORT || 4000;
+import app from './app';
+
+// dotenv.config();
+const port: number | string = process.env.PORT || 4000;
 const start = async () => {
   try {
     await app.listen(port);

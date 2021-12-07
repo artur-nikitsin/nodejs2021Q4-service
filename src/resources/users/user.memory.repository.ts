@@ -1,21 +1,27 @@
-const User = require('./user.model');
-const taskService = require('../tasks/task.service');
+import User from './user.model';
+import taskService from '../tasks/task.service';
 
-let usersRepository = [];
+let usersRepository: Array<User> = [];
 
 const getAll = () => usersRepository.map((user) => User.toResponse(user));
 
-const getOneById = (userId) =>
+const getOneById = (userId: string) =>
   usersRepository.find((user) => user.id === userId);
 
-const create = (userData) => {
+const create = (userData: User) => {
   const { name, login, password } = userData;
   const newUser = new User({ name, login, password });
   usersRepository = [...usersRepository, newUser];
   return User.toResponse(newUser);
 };
 
-const update = ({ userId, updatedUserData }) => {
+const update = ({
+  userId,
+  updatedUserData,
+}: {
+  userId: string;
+  updatedUserData: User;
+}) => {
   const prevUser = usersRepository.find((user) => user.id === userId);
   if (prevUser) {
     const index = usersRepository.indexOf(prevUser);
@@ -26,7 +32,7 @@ const update = ({ userId, updatedUserData }) => {
   return prevUser;
 };
 
-const deleteById = (userId) => {
+const deleteById = (userId: string) => {
   const user = usersRepository.find((currentUser) => currentUser.id === userId);
   if (user) {
     const index = usersRepository.indexOf(user);
@@ -40,7 +46,7 @@ const deleteById = (userId) => {
   return null;
 };
 
-module.exports = {
+export default {
   getAll,
   getOneById,
   create,
