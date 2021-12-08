@@ -3,7 +3,7 @@ dotenv.config();
 
 import app from './app';
 
-// dotenv.config();
+dotenv.config();
 const port: number | string = process.env.PORT || 4000;
 const start = async () => {
   try {
