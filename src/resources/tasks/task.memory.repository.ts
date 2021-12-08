@@ -20,7 +20,6 @@ const create = ({ taskData, boardId }: { taskData: Task; boardId: string }) => {
     title,
     order,
     description,
-    // @ts-ignore
     userId,
     boardId,
     columnId,

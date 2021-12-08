@@ -1,8 +1,5 @@
 import Board from './board.model';
-
-const { validate } = require('uuid');
 import boardRepository from './board.memory.repository';
-import taskService from '../tasks/task.service';
 
 const getAll = () => {
   return boardRepository.getAll();

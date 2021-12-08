@@ -6,7 +6,6 @@ import {
 import boardService from './board.service';
 
 import Board from './board.model';
-// @ts-ignore
 import { validate } from 'uuid';
 import taskService from '../tasks/task.service';
 

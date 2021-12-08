@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 
-interface TaskInterface {
+export interface TaskInterface {
   id: string;
   title: string;
   order: string;
@@ -9,6 +9,15 @@ interface TaskInterface {
   boardId: string;
   columnId: string;
 }
+
+export type TaskConstructorProps = {
+  title: string;
+  order: string;
+  description: string;
+  userId: string | null;
+  boardId: string;
+  columnId: string;
+};
 
 class Task implements TaskInterface {
   public id: string;
@@ -20,13 +29,13 @@ class Task implements TaskInterface {
   public columnId: string;
 
   constructor({
-    title = 'title',
-    order = 'order',
-    description = 'description',
-    userId = 'userId',
-    boardId = 'userId',
-    columnId = 'columnId',
-  } = {}) {
+    title,
+    order,
+    description,
+    userId,
+    boardId,
+    columnId,
+  }: TaskConstructorProps) {
     this.id = v4();
     this.title = title;
     this.order = order;

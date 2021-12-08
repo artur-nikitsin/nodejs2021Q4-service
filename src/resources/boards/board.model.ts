@@ -1,15 +1,17 @@
 import { v4 } from 'uuid';
+import Column from '../columns/column.model';
 
-interface BoardInterface {
+export interface BoardInterface {
   id: string;
-  title: string;
-  columns: string[];
 }
+
+export type BoardConstructorProps = { title: string; columns: Column[] };
+
 class Board implements BoardInterface {
   public id: string;
   public title: string;
-  public columns: string[];
-  constructor({ title = 'title', columns = [] } = {}) {
+  public columns: Column[];
+  constructor({ title, columns }: BoardConstructorProps) {
     this.id = v4();
     this.title = title;
     this.columns = columns;

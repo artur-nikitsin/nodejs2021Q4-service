@@ -2,12 +2,9 @@ import Task from './task.model';
 import taskService from './task.service';
 import {
   FastifyInstance,
-  FastifyPluginCallback,
-  FastifyRequest,
   RegisterOptions,
   RequestGenericInterface,
 } from 'fastify';
-// @ts-ignore
 import { validate } from 'uuid';
 
 export interface requestTaskGeneric extends RequestGenericInterface {

@@ -1,11 +1,17 @@
 import { v4 } from 'uuid';
 
-interface UserInterface {
+export interface UserInterface {
   id: string;
   name: string;
   login: string;
   password: string;
 }
+
+export type UserConstructorProps = {
+  name: string;
+  login: string;
+  password: string;
+};
 
 class User implements UserInterface {
   public id: string;
@@ -13,7 +19,7 @@ class User implements UserInterface {
   public login: string;
   public password: string;
 
-  constructor({ name = 'name', login = 'login', password = 'password' } = {}) {
+  constructor({ name, login, password }: UserConstructorProps) {
     this.id = v4();
     this.name = name;
     this.login = login;

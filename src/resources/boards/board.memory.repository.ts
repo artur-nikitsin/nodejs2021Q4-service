@@ -9,7 +9,6 @@ const getOneById = (boardId: string) =>
 
 const create = (boardData: Board) => {
   const { title, columns } = boardData;
-  // @ts-ignore
   const newBoard = new Board({ title, columns });
   boardRepository = [...boardRepository, newBoard];
   return newBoard;
