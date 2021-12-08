@@ -3,8 +3,6 @@ import userRouter from './resources/users/user.router';
 import taskRouter from './resources/tasks/task.router';
 import boardRouter from './resources/boards/board.router';
 
-// const boardRouter = require('./resources/boards/board.router');
-
 const app: FastifyInstance = fastify({ logger: true });
 
 app.register(userRouter);

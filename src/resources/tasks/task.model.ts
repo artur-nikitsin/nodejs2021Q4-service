@@ -1,4 +1,3 @@
-// @ts-ignore
 import { v4 } from 'uuid';
 
 interface TaskInterface {
