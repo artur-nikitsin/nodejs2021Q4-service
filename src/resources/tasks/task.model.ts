@@ -1,4 +1,5 @@
-const { v4: uuidv4 } = require('uuid');
+// @ts-ignore
+import { v4 } from 'uuid';
 
 interface TaskInterface {
   id: string;
@@ -22,12 +23,12 @@ class Task implements TaskInterface {
   constructor({
     title = 'title',
     order = 'order',
-    description = 'descriptopn',
+    description = 'description',
     userId = 'userId',
-    boardId = 'boardId',
+    boardId = 'userId',
     columnId = 'columnId',
   } = {}) {
-    this.id = uuidv4();
+    this.id = v4();
     this.title = title;
     this.order = order;
     this.description = description;

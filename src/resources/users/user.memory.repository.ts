@@ -1,5 +1,6 @@
 import User from './user.model';
 import taskService from '../tasks/task.service';
+import Task from '../tasks/task.model';
 
 let usersRepository: Array<User> = [];
 
@@ -37,7 +38,7 @@ const deleteById = (userId: string) => {
   if (user) {
     const index = usersRepository.indexOf(user);
 
-    const usersTasks = taskService.getAllByUserId(user.id);
+    const usersTasks: Task[] = taskService.getAllByUserId(user.id);
 
     taskService.reassignUserTasks(usersTasks);
 

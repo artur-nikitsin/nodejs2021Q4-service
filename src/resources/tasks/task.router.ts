@@ -7,6 +7,7 @@ import {
   RegisterOptions,
   RequestGenericInterface,
 } from 'fastify';
+// @ts-ignore
 import { validate } from 'uuid';
 
 export interface requestTaskGeneric extends RequestGenericInterface {
@@ -102,4 +103,4 @@ const taskRouter = (
   done();
 };
 
-module.exports = taskRouter;
+export default taskRouter;

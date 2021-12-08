@@ -15,10 +15,12 @@ const getAllByBoardId = (boardId: string) =>
 
 const create = ({ taskData, boardId }: { taskData: Task; boardId: string }) => {
   const { title, order, description, userId, columnId } = taskData;
+
   const newTask = new Task({
     title,
     order,
     description,
+    // @ts-ignore
     userId,
     boardId,
     columnId,

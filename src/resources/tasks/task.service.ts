@@ -1,6 +1,4 @@
 import Task from './task.model';
-
-const { validate } = require('uuid');
 import taskRepository from './task.memory.repository';
 
 const getAll = () => {

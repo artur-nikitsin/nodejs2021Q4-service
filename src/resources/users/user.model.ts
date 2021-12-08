@@ -1,3 +1,4 @@
+// @ts-ignore
 import { v4 } from 'uuid';
 
 interface UserInterface {
@@ -14,7 +15,7 @@ class User implements UserInterface {
   public password: string;
 
   constructor({ name = 'name', login = 'login', password = 'password' } = {}) {
-    this.id = v4.uuidv4();
+    this.id = v4();
     this.name = name;
     this.login = login;
     this.password = password;
