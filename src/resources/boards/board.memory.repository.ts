@@ -1,20 +1,27 @@
-const Board = require('./board.model');
+import Board from './board.model';
 
-let boardRepository = [];
+let boardRepository: Board[] = [];
 
 const getAll = () => boardRepository;
 
-const getOneById = (boardId) =>
+const getOneById = (boardId: string) =>
   boardRepository.find((board) => board.id === boardId);
 
-const create = (boardData) => {
+const create = (boardData: Board) => {
   const { title, columns } = boardData;
+  // @ts-ignore
   const newBoard = new Board({ title, columns });
   boardRepository = [...boardRepository, newBoard];
   return newBoard;
 };
 
-const update = ({ boardId, updatedBoardData }) => {
+const update = ({
+  boardId,
+  updatedBoardData,
+}: {
+  boardId: string;
+  updatedBoardData: Board;
+}) => {
   const prevBoard = boardRepository.find((board) => board.id === boardId);
   if (prevBoard) {
     const index = boardRepository.indexOf(prevBoard);
@@ -25,7 +32,7 @@ const update = ({ boardId, updatedBoardData }) => {
   return prevBoard;
 };
 
-const deleteById = (boardId) => {
+const deleteById = (boardId: string) => {
   const board = boardRepository.find(
     (currentBoard) => currentBoard.id === boardId
   );
@@ -36,7 +43,7 @@ const deleteById = (boardId) => {
   return null;
 };
 
-module.exports = {
+export default {
   getAll,
   getOneById,
   create,

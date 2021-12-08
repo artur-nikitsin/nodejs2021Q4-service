@@ -1,74 +1,30 @@
+import Board from './board.model';
+
 const { validate } = require('uuid');
-const boardRepository = require('./board.memory.repository');
-const taskService = require('../tasks/task.service');
+import boardRepository from './board.memory.repository';
+import taskService from '../tasks/task.service';
 
-const getAll = ({ reply }) => {
-  const boards = boardRepository.getAll();
-  reply.code(200);
-  reply.send(boards);
+const getAll = () => {
+  return boardRepository.getAll();
 };
 
-const getOneById = ({ request, reply }) => {
-  if (!validate(request.params.boardId)) {
-    reply.code(400);
-    reply.send({ message: `This in not uuid: ${request.params.boardId}` });
-  }
-  const board = boardRepository.getOneById(request.params.boardId);
-  if (board) {
-    reply.code(200);
-    reply.send(board);
-  } else {
-    reply.code(404);
-    reply.send({
-      message: `Board with id: ${request.params.boardId} not found`,
-    });
-  }
+const getOneById = (boardId: string) => {
+  return boardRepository.getOneById(boardId);
 };
 
-const create = ({ request, reply }) => {
-  const newBoard = boardRepository.create(request.body);
-  if (newBoard) {
-    reply.code(201);
-    reply.send(newBoard);
-  }
+const create = (body: Board) => {
+  return boardRepository.create(body);
 };
 
-const updateBoard = ({ request, reply }) => {
-  if (!validate(request.params.boardId)) {
-    reply.code(400);
-    reply.send({ message: `This in not uuid: ${request.params.boardId}` });
-  }
-  const updatedBoard = boardRepository.update({
-    boardId: request.params.boardId,
-    updatedBoardData: request.body,
+const updateBoard = (boardId: string, updatedBoardData: Board) => {
+  return boardRepository.update({
+    boardId: boardId,
+    updatedBoardData: updatedBoardData,
   });
-  if (updatedBoard) {
-    reply.code(200);
-    reply.send(updatedBoard);
-  } else {
-    reply.code(404);
-    reply.send({
-      message: `Board with id: ${request.params.boardId} not found`,
-    });
-  }
 };
 
-const deleteBoard = ({ request, reply }) => {
-  if (!validate(request.params.boardId)) {
-    reply.code(400);
-    reply.send({ message: `This in not uuid: ${request.params.boardId}` });
-  }
-  const deletedBoard = boardRepository.deleteById(request.params.boardId);
-  if (deletedBoard && deletedBoard.length >= 1) {
-    const boardTasks = taskService.getAllByBoardId(request.params.boardId);
-    taskService.deleteBoardsTasks(boardTasks);
-    reply.code(204);
-  } else {
-    reply.code(404);
-    reply.send({
-      message: `Board with id: ${request.params.boardId} not found`,
-    });
-  }
+const deleteBoard = (boardId: string) => {
+  return boardRepository.deleteById(boardId);
 };
 
-module.exports = { getAll, create, getOneById, updateBoard, deleteBoard };
+export default { getAll, create, getOneById, updateBoard, deleteBoard };
