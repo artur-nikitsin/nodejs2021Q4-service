@@ -1,20 +1,103 @@
-const taskService = require('./task.service');
+import Task from './task.model';
+import taskService from './task.service';
+import {
+  FastifyInstance,
+  FastifyPluginCallback,
+  FastifyRequest,
+  RegisterOptions,
+  RequestGenericInterface,
+} from 'fastify';
+import { validate } from 'uuid';
 
-const taskRouter = (fastify, opts, done) => {
-  fastify.get('/boards/:boardId/tasks', async (request, reply) =>
-    taskService.getAll({ request, reply })
+export interface requestTaskGeneric extends RequestGenericInterface {
+  Params: {
+    taskId: string;
+    boardId: string;
+  };
+  Body: Task;
+}
+
+const taskRouter = (
+  fastify: FastifyInstance,
+  opts: RegisterOptions,
+  done: (err?: Error | undefined) => void
+) => {
+  fastify.get('/boards/:boardId/tasks', async (request, reply) => {
+    const tasks = taskService.getAll();
+    reply.code(200);
+    reply.send(tasks);
+  });
+  fastify.get<requestTaskGeneric>(
+    '/boards/:boardId/tasks/:taskId',
+    async (request, reply) => {
+      const { taskId } = request.params;
+      if (!validate(taskId)) {
+        reply.code(400);
+        reply.send({ message: `This in not uuid: ${taskId}` });
+      }
+      const task = taskService.getOneById(taskId);
+      if (task) {
+        reply.code(200);
+        reply.send(task);
+      } else {
+        reply.code(404);
+        reply.send({
+          message: `Task with id: ${request.params.taskId} not found`,
+        });
+      }
+    }
   );
-  fastify.get('/boards/:boardId/tasks/:taskId', async (request, reply) =>
-    taskService.getOneById({ request, reply })
+  fastify.post<requestTaskGeneric>(
+    '/boards/:boardId/tasks',
+    async (request, reply) => {
+      {
+        const { boardId } = request.params;
+        const newTask = taskService.create(boardId, request.body);
+        if (newTask) {
+          reply.code(201);
+          reply.send(newTask);
+        }
+      }
+    }
   );
-  fastify.post('/boards/:boardId/tasks', async (request, reply) =>
-    taskService.create({ request, reply })
+  fastify.put<requestTaskGeneric>(
+    '/boards/:boardId/tasks/:taskId',
+    async (request, reply) => {
+      const { taskId } = request.params;
+      if (!validate(taskId)) {
+        reply.code(400);
+        reply.send({ message: `This in not uuid: ${request.params.taskId}` });
+      }
+      const updatedTask = taskService.updateTask(taskId, request.body);
+      if (updatedTask) {
+        reply.code(200);
+        reply.send(updatedTask);
+      } else {
+        reply.code(404);
+        reply.send({
+          message: `Task with id: ${request.params.taskId} not found`,
+        });
+      }
+    }
   );
-  fastify.put('/boards/:boardId/tasks/:taskId', async (request, reply) =>
-    taskService.updateTask({ request, reply })
-  );
-  fastify.delete('/boards/:boardId/tasks/:taskId', async (request, reply) =>
-    taskService.deleteTask({ request, reply })
+  fastify.delete<requestTaskGeneric>(
+    '/boards/:boardId/tasks/:taskId',
+    async (request, reply) => {
+      const { taskId } = request.params;
+      if (!validate(taskId)) {
+        reply.code(400);
+        reply.send({ message: `This in not uuid: ${request.params.taskId}` });
+      }
+      const deletedTask = taskService.deleteTask(taskId);
+      if (deletedTask && deletedTask.length >= 1) {
+        reply.code(204);
+      } else {
+        reply.code(404);
+        reply.send({
+          message: `Task with id: ${request.params.taskId} not found`,
+        });
+      }
+    }
   );
   done();
 };

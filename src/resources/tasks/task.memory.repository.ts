@@ -1,19 +1,19 @@
-const Task = require('./task.model');
+import Task from './task.model';
 
-let taskRepository = [];
+let taskRepository: Task[] = [];
 
 const getAll = () => taskRepository;
 
-const getOneById = (taskId) =>
-  taskRepository.find((task) => task.id === taskId);
+const getOneById = (taskId: string) =>
+  taskRepository.find((task: Task) => task.id === taskId);
 
-const getAllByUserId = (taskId) =>
-  taskRepository.filter((task) => task.userId === taskId);
+const getAllByUserId = (taskId: string) =>
+  taskRepository.filter((task: Task) => task.userId === taskId);
 
-const getAllByBoardId = (boardId) =>
-  taskRepository.filter((task) => task.boardId === boardId);
+const getAllByBoardId = (boardId: string) =>
+  taskRepository.filter((task: Task) => task.boardId === boardId);
 
-const create = ({ taskData, boardId }) => {
+const create = ({ taskData, boardId }: { taskData: Task; boardId: string }) => {
   const { title, order, description, userId, columnId } = taskData;
   const newTask = new Task({
     title,
@@ -27,7 +27,13 @@ const create = ({ taskData, boardId }) => {
   return newTask;
 };
 
-const update = ({ taskId, updatedTaskData }) => {
+const update = ({
+  taskId,
+  updatedTaskData,
+}: {
+  taskId: string;
+  updatedTaskData: Task;
+}) => {
   const prevTask = taskRepository.find((task) => task.id === taskId);
   if (prevTask) {
     const index = taskRepository.indexOf(prevTask);
@@ -38,7 +44,7 @@ const update = ({ taskId, updatedTaskData }) => {
   return prevTask;
 };
 
-const deleteById = (taskId) => {
+const deleteById = (taskId: string) => {
   const task = taskRepository.find((currentTask) => currentTask.id === taskId);
   if (task) {
     const index = taskRepository.indexOf(task);
@@ -47,7 +53,7 @@ const deleteById = (taskId) => {
   return null;
 };
 
-module.exports = {
+export default {
   getAll,
   getOneById,
   getAllByUserId,

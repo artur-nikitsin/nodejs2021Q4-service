@@ -10,7 +10,7 @@ const getOneById = (userId: string) =>
 
 const create = (userData: User) => {
   const { name, login, password } = userData;
-  const newUser = new User(name, login, password);
+  const newUser = new User({ name, login, password });
   usersRepository = [...usersRepository, newUser];
   return User.toResponse(newUser);
 };

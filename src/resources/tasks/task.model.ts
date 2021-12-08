@@ -5,7 +5,7 @@ interface TaskInterface {
   title: string;
   order: string;
   description: string;
-  userId: string;
+  userId: string | null;
   boardId: string;
   columnId: string;
 }
@@ -15,7 +15,7 @@ class Task implements TaskInterface {
   public title: string;
   public order: string;
   public description: string;
-  public userId: string;
+  public userId: string | null;
   public boardId: string;
   public columnId: string;
 

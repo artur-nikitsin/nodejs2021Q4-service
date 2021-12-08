@@ -1,5 +1,4 @@
 import usersService from './user.service';
-// @ts-ignore
 import { validate } from 'uuid';
 import {
   FastifyInstance,

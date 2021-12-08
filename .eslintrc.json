@@ -20,7 +20,6 @@
     "plugin:prettier/recommended"
   ],
   "rules": {
-    "@typescript-eslint/rule-name": "error",
-    "no-explicit-any": 2
+    "@typescript-eslint/no-explicit-any": 2
   }
 }
