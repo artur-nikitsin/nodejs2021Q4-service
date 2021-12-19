@@ -16,11 +16,23 @@ export interface requestBoardGeneric extends RequestGenericInterface {
   Body: Board;
 }
 
+/**
+ * Board Router.
+ * @param  fastify : FastifyInstance
+ * @param  opts : RegisterOptions
+ * @param  done : (err?: Error | undefined) => void
+ */
 const boardRouter = (
   fastify: FastifyInstance,
   opts: RegisterOptions,
   done: (err?: Error | undefined) => void
 ) => {
+  /**
+   * Returns all Boards.
+   * @param path : string
+   * @param callback : function
+   * @returns  Board[]
+   */
   fastify.get('/boards', async (request, reply) => {
     {
       const boards = boardService.getAll();
@@ -28,6 +40,12 @@ const boardRouter = (
       reply.send(boards);
     }
   });
+  /**
+   * Returns Board by its id
+   * @param path : string
+   * @param callback : function
+   * @returns  Board
+   */
   fastify.get<requestBoardGeneric>(
     '/boards/:boardId',
     async (request, reply) => {
@@ -48,6 +66,12 @@ const boardRouter = (
       }
     }
   );
+  /**
+   * Create Board with boardData
+   * @param path : string
+   * @param callback : function
+   * @returns  Board
+   */
   fastify.post<requestBoardGeneric>('/boards', async (request, reply) => {
     const newBoard = boardService.create(request.body);
     if (newBoard) {
@@ -55,6 +79,12 @@ const boardRouter = (
       reply.send(newBoard);
     }
   });
+  /**
+   * Update Board with updatedBoard
+   * @param path : string
+   * @param callback : function
+   * @returns  Board
+   */
   fastify.put<requestBoardGeneric>(
     '/boards/:boardId',
     async (request, reply) => {
@@ -75,6 +105,12 @@ const boardRouter = (
       }
     }
   );
+  /**
+   * Delete Board by its id
+   * @param path : string
+   * @param callback : function
+   * @returns  Board[]
+   */
   fastify.delete<requestBoardGeneric>(
     '/boards/:boardId',
     async (request, reply) => {

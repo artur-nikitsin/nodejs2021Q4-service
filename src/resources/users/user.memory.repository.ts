@@ -4,11 +4,25 @@ import Task from '../tasks/task.model';
 
 let usersRepository: Array<User> = [];
 
+/**
+ * Returns all Users.
+ * @returns  User[]
+ */
 const getAll = () => usersRepository.map((user) => User.toResponse(user));
 
+/**
+ * Returns User by its id
+ * @param userId : string
+ * @returns User
+ */
 const getOneById = (userId: string) =>
   usersRepository.find((user) => user.id === userId);
 
+/**
+ * Create User with userData
+ * @param userData : User
+ * @returns User
+ */
 const create = (userData: User) => {
   const { name, login, password } = userData;
   const newUser = new User({ name, login, password });
@@ -16,6 +30,12 @@ const create = (userData: User) => {
   return User.toResponse(newUser);
 };
 
+/**
+ * Update User with updatedUserData
+ * @param userId : string
+ * @param updatedUserData : User
+ * @returns User
+ */
 const update = ({
   userId,
   updatedUserData,
@@ -33,6 +53,11 @@ const update = ({
   return prevUser;
 };
 
+/**
+ * Delete User by its id
+ * @param userId : string
+ * @returns User[]
+ */
 const deleteById = (userId: string) => {
   const user = usersRepository.find((currentUser) => currentUser.id === userId);
   if (user) {

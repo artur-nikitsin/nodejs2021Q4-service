@@ -2,11 +2,25 @@ import Board from './board.model';
 
 let boardRepository: Board[] = [];
 
+/**
+ * Returns all Boards.
+ * @returns  Board[]
+ */
 const getAll = () => boardRepository;
 
+/**
+ * Returns Board by its id
+ * @param boardId : string
+ * @returns Board
+ */
 const getOneById = (boardId: string) =>
   boardRepository.find((board) => board.id === boardId);
 
+/**
+ * Create Board with boardData
+ * @param boardData : Board
+ * @returns Board
+ */
 const create = (boardData: Board) => {
   const { title, columns } = boardData;
   const newBoard = new Board({ title, columns });
@@ -14,6 +28,12 @@ const create = (boardData: Board) => {
   return newBoard;
 };
 
+/**
+ * Update Board with updatedBoardData
+ * @param boardId : string
+ * @param updatedBoardData : Board
+ * @returns Board
+ */
 const update = ({
   boardId,
   updatedBoardData,
@@ -31,6 +51,11 @@ const update = ({
   return prevBoard;
 };
 
+/**
+ * Delete Board by its id
+ * @param boardId : string
+ * @returns Board[]
+ */
 const deleteById = (boardId: string) => {
   const board = boardRepository.find(
     (currentBoard) => currentBoard.id === boardId

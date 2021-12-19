@@ -15,16 +15,34 @@ export interface requestTaskGeneric extends RequestGenericInterface {
   Body: Task;
 }
 
+/**
+ * Task Router.
+ * @param  fastify : FastifyInstance
+ * @param  opts : RegisterOptions
+ * @param  done : (err?: Error | undefined) => void
+ */
 const taskRouter = (
   fastify: FastifyInstance,
   opts: RegisterOptions,
   done: (err?: Error | undefined) => void
 ) => {
+  /**
+   * Returns all Tasks.
+   * @param path : string
+   * @param callback : function
+   * @returns  Task[]
+   */
   fastify.get('/boards/:boardId/tasks', async (request, reply) => {
     const tasks = taskService.getAll();
     reply.code(200);
     reply.send(tasks);
   });
+  /**
+   * Returns Task by its id
+   * @param path : string
+   * @param callback : function
+   * @returns  Task
+   */
   fastify.get<requestTaskGeneric>(
     '/boards/:boardId/tasks/:taskId',
     async (request, reply) => {
@@ -45,6 +63,12 @@ const taskRouter = (
       }
     }
   );
+  /**
+   * Create TAsk with taskData
+   * @param path : string
+   * @param callback : function
+   * @returns  Task
+   */
   fastify.post<requestTaskGeneric>(
     '/boards/:boardId/tasks',
     async (request, reply) => {
@@ -58,6 +82,12 @@ const taskRouter = (
       }
     }
   );
+  /**
+   * Update Task with updatedTask
+   * @param path : string
+   * @param callback : function
+   * @returns  Task
+   */
   fastify.put<requestTaskGeneric>(
     '/boards/:boardId/tasks/:taskId',
     async (request, reply) => {
@@ -78,6 +108,12 @@ const taskRouter = (
       }
     }
   );
+  /**
+   * Delete TAsk by its id
+   * @param path : string
+   * @param callback : function
+   * @returns  Task[]
+   */
   fastify.delete<requestTaskGeneric>(
     '/boards/:boardId/tasks/:taskId',
     async (request, reply) => {

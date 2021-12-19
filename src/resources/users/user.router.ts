@@ -15,17 +15,34 @@ export interface requestGeneric extends RequestGenericInterface {
   Body: User;
 }
 
+/**
+ * Task Router.
+ * @param  fastify : FastifyInstance
+ * @param  opts : RegisterOptions
+ * @param  done : (err?: Error | undefined) => void
+ */
 const userRouter: FastifyPluginCallback = (
   fastify: FastifyInstance,
   opts: RegisterOptions,
   done: (err?: Error | undefined) => void
 ) => {
+  /**
+   * Returns all Users.
+   * @param path : string
+   * @param callback : function
+   * @returns  User[]
+   */
   fastify.get('/users', async (request, reply) => {
     const users = usersService.getAll();
     reply.code(200);
     reply.send(users);
   });
-
+  /**
+   * Returns User by its id
+   * @param path : string
+   * @param callback : function
+   * @returns  User
+   */
   fastify.get<requestGeneric>('/users/:userId', async (request, reply) => {
     const { userId } = request.params;
     if (!validate(userId)) {
@@ -43,7 +60,12 @@ const userRouter: FastifyPluginCallback = (
       });
     }
   });
-
+  /**
+   * Create User with userData
+   * @param path : string
+   * @param callback : function
+   * @returns  User
+   */
   fastify.post<requestGeneric>('/users', async (request, reply) => {
     const newUser = usersService.create(request.body);
     if (newUser) {
@@ -51,7 +73,12 @@ const userRouter: FastifyPluginCallback = (
       reply.send(newUser);
     }
   });
-
+  /**
+   * Update User with updatedUser
+   * @param path : string
+   * @param callback : function
+   * @returns  User
+   */
   fastify.put<requestGeneric>('/users/:userId', async (request, reply) => {
     const { userId } = request.params;
     if (!validate(userId)) {
@@ -70,7 +97,12 @@ const userRouter: FastifyPluginCallback = (
       });
     }
   });
-
+  /**
+   * Delete User by its id
+   * @param path : string
+   * @param callback : function
+   * @returns  User[]
+   */
   fastify.delete<requestGeneric>('/users/:userId', async (request, reply) => {
     const { userId } = request.params;
     if (!validate(userId)) {
