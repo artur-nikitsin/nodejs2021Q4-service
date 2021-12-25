@@ -5,7 +5,7 @@ import taskRouter from './resources/tasks/task.router';
 import boardRouter from './resources/boards/board.router';
 import pino from 'pino';
 import * as http from 'http';
-import { logger } from './logger';
+import { logger } from './logger/logger';
 dotenv.config();
 
 const app: FastifyInstance = fastify<
