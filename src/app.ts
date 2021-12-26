@@ -21,4 +21,11 @@ app.register(userRouter);
 app.register(taskRouter);
 app.register(boardRouter);
 
+app.addHook('preHandler', function (req, reply, done) {
+  if (req.body) {
+    req.log.info({ body: req.body }, 'Parsed body');
+  }
+  done();
+});
+
 export default app;
