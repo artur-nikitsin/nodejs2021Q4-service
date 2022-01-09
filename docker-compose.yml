@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  nodejs2021q4-service:
+    image: nodejs2021q4-service
+    restart: always
+    build: .
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/usr/app/src
+      - /usr/app/node_modules
+      - ./logs:/usr/app/logs
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - postgres
+  postgres:
+    build: ./db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: "app-db"
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "password"
+      PGDATA: "/usr/app/pgdata"
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/usr/postgresql/data
