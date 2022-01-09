@@ -3,7 +3,9 @@ version: '3.9'
 services:
   nodejs2021q4-service:
     image: nodejs2021q4-service
-    restart: always
+    deploy:
+      restart_policy:
+        condition: on-failure
     build: .
     ports:
       - "4000:4000"
@@ -18,7 +20,6 @@ services:
   postgres:
     build: ./db
     image: postgres
-    restart: always
     environment:
       POSTGRES_DB: "app-db"
       POSTGRES_USER: "user"
@@ -28,8 +29,10 @@ services:
       - "3000:3000"
     volumes:
       - .:/usr/postgresql/data
-    networks:
-      name:
-      nodejs2021q4-driver
-      driver:
-      custom-driver-1
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+networks:
+  nodejs2021q4-network:
+   name: nodejs2021q4
