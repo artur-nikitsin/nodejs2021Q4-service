@@ -25,6 +25,11 @@ services:
       POSTGRES_PASSWORD: "password"
       PGDATA: "/usr/app/pgdata"
     ports:
-      - "8080:8080"
+      - "3000:3000"
     volumes:
       - .:/usr/postgresql/data
+    networks:
+      name:
+      nodejs2021q4-driver
+      driver:
+      custom-driver-1
