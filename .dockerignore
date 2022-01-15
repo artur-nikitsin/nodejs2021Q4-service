@@ -1,8 +1,13 @@
 .git
 .github
 .vscode
-.dist
+dist
+doc
+logs
 node_modules
+postgres
+test
+Dockerfile
 .idea/
 *.log
 doc

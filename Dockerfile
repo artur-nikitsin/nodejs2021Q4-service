@@ -1,15 +1,14 @@
 FROM node:16-alpine
 
-EXPOSE 4000
+EXPOSE ${PORT}
 
-WORKDIR /usr/app/src
+WORKDIR /app
 
-COPY package*.json .
+COPY package*.json ./
 
-RUN yarn install
+RUN npm install
 
-COPY . .
+COPY ./ ./
 
-CMD ["yarn", "start"]
-
+CMD ["npm", "start"]
 
