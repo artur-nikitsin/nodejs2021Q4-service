@@ -33,7 +33,7 @@ const userRouter: FastifyPluginCallback = (
    * @returns  User[]
    */
   fastify.get('/users', async (request, reply) => {
-    const users = usersService.getAll();
+    const users = await usersService.getAll();
     reply.code(200);
     reply.send(users);
   });
@@ -49,7 +49,7 @@ const userRouter: FastifyPluginCallback = (
       reply.code(400);
       reply.send({ message: `This in not uuid: ${request.params.userId}` });
     }
-    const user = usersService.getOneById(userId);
+    const user = await usersService.getOneById(userId);
     if (user) {
       reply.code(200);
       reply.send(user);
@@ -67,7 +67,7 @@ const userRouter: FastifyPluginCallback = (
    * @returns  User
    */
   fastify.post<requestGeneric>('/users', async (request, reply) => {
-    const newUser = usersService.create(request.body);
+    const newUser = await usersService.create(request.body);
     if (newUser) {
       reply.code(201);
       reply.send(newUser);
@@ -86,7 +86,7 @@ const userRouter: FastifyPluginCallback = (
       reply.send({ message: `This in not uuid: ${request.params.userId}` });
     }
     const body = request.body;
-    const updatedUser = usersService.updateUser(userId, body);
+    const updatedUser = await usersService.updateUser(userId, body);
     if (updatedUser) {
       reply.code(200);
       reply.send(updatedUser);
@@ -109,8 +109,8 @@ const userRouter: FastifyPluginCallback = (
       reply.code(400);
       reply.send({ message: `This in not uuid: ${request.params.userId}` });
     }
-    const deletedUser = usersService.deleteUser(userId);
-    if (deletedUser && deletedUser.length >= 1) {
+    const deletedUser = await usersService.deleteUser(userId);
+    if (deletedUser) {
       reply.code(204);
     } else {
       reply.code(404);

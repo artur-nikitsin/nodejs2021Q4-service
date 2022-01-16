@@ -8,6 +8,7 @@ import { createConnection } from 'typeorm';
 import pino from 'pino';
 import * as http from 'http';
 import { logger } from './logger/logger';
+import { User } from './resources/users/user.entity';
 dotenv.config();
 
 const app: FastifyInstance = fastify<
@@ -25,13 +26,15 @@ const POSTGRES_USER = process.env.POSTGRES_USER;
 const POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD;
 const POSTGRES_DB = process.env.POSTGRES_DB;
 
-const connection = createConnection({
+export const connection = createConnection({
   type: 'postgres',
   host: 'host.docker.internal',
   port: POSTGRES_PORT,
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB,
+  entities: [User],
+  synchronize: true,
 });
 
 app.register(userRouter);
