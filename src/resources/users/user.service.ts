@@ -1,5 +1,5 @@
 import usersRepository from './user.memory.repository';
-import User from './user.model';
+import { UserEntity } from './user.entity';
 
 /**
  * Returns all Users.
@@ -23,7 +23,7 @@ const getOneById = async (userId: string) => {
  * @param body : User
  * @returns User
  */
-const create = async (body: User) => {
+const create = async (body: UserEntity) => {
   return await usersRepository.create(body);
 };
 
@@ -33,7 +33,7 @@ const create = async (body: User) => {
  * @param body : User
  * @returns User
  */
-const updateUser = async (userId: string, body: User) => {
+const updateUser = async (userId: string, body: UserEntity) => {
   return await usersRepository.update({
     userId,
     updatedUserData: body,

@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { User } from './user.entity';
+import { UserEntity } from './user.entity';
 // import taskService from '../tasks/task.service';
 // import Task from '../tasks/task.model';
 
@@ -9,14 +9,15 @@ import { User } from './user.entity';
  * Returns all Users.
  * @returns  User[]
  */
-const getAll = async () => getRepository(User).findAndCount();
+const getAll = async () => getRepository(UserEntity).findAndCount();
 
 /**
  * Returns User by its id
  * @param userId : string
  * @returns User
  */
-const getOneById = (userId: string) => getRepository(User).findOne(userId);
+const getOneById = (userId: string) =>
+  getRepository(UserEntity).findOne(userId);
 
 /**
  * Create User with userData
@@ -24,13 +25,13 @@ const getOneById = (userId: string) => getRepository(User).findOne(userId);
  * @returns User
  */
 
-const create = async (userData: User) => {
+const create = async (userData: UserEntity) => {
   const { name, login, password } = userData;
-  const user = new User();
+  const user = new UserEntity();
   user.name = name;
   user.login = login;
   user.password = password;
-  return await getRepository(User).save(user);
+  return await getRepository(UserEntity).save(user);
 };
 
 /**
@@ -44,11 +45,11 @@ const update = async ({
   updatedUserData,
 }: {
   userId: string;
-  updatedUserData: User;
+  updatedUserData: UserEntity;
 }) => {
-  return await getRepository(User)
+  return await getRepository(UserEntity)
     .createQueryBuilder()
-    .update(User)
+    .update(UserEntity)
     .set({ ...updatedUserData })
     .where('id = :userId', { userId })
     .execute();
@@ -68,7 +69,7 @@ const update = async ({
  * @returns User[]
  */
 const deleteById = async (userId: string) => {
-  return await getRepository(User)
+  return await getRepository(UserEntity)
     .createQueryBuilder()
     .delete()
     .where('id = :userId', { userId })

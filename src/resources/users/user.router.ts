@@ -6,13 +6,14 @@ import {
   RegisterOptions,
   RequestGenericInterface,
 } from 'fastify';
-import User from './user.model';
+
+import { UserEntity } from './user.entity';
 
 export interface requestGeneric extends RequestGenericInterface {
   Params: {
     userId: string;
   };
-  Body: User;
+  Body: UserEntity;
 }
 
 /**

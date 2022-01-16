@@ -8,7 +8,8 @@ import { createConnection } from 'typeorm';
 import pino from 'pino';
 import * as http from 'http';
 import { logger } from './logger/logger';
-import { User } from './resources/users/user.entity';
+import { UserEntity } from './resources/users/user.entity';
+import { TaskEntity } from './resources/tasks/task.entity';
 dotenv.config();
 
 const app: FastifyInstance = fastify<
@@ -33,7 +34,7 @@ export const connection = createConnection({
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB,
-  entities: [User],
+  entities: [UserEntity, TaskEntity],
   synchronize: true,
 });
 
