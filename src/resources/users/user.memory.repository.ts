@@ -16,8 +16,8 @@ const getAll = async () => getRepository(UserEntity).findAndCount();
  * @param userId : string
  * @returns User
  */
-const getOneById = (userId: string) =>
-  getRepository(UserEntity).findOne(userId);
+const getOneById = async (userId: string) =>
+  await getRepository(UserEntity).findOne(userId);
 
 /**
  * Create User with userData

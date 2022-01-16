@@ -16,7 +16,7 @@ export class TaskEntity {
   description: string;
 
   @ManyToOne(() => UserEntity, (user) => user.tasks)
-  user: UserEntity;
+  user: UserEntity | undefined;
 
   @Column()
   boardId: string;

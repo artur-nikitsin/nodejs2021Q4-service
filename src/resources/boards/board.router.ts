@@ -35,7 +35,7 @@ const boardRouter = (
    */
   fastify.get('/boards', async (request, reply) => {
     {
-      const boards = boardService.getAll();
+      const boards = await boardService.getAll();
       reply.code(200);
       reply.send(boards);
     }
@@ -54,7 +54,7 @@ const boardRouter = (
         reply.code(400);
         reply.send({ message: `This in not uuid: ${boardId}` });
       }
-      const board = boardService.getOneById(boardId);
+      const board = await boardService.getOneById(boardId);
       if (board) {
         reply.code(200);
         reply.send(board);
@@ -73,7 +73,7 @@ const boardRouter = (
    * @returns  Board
    */
   fastify.post<requestBoardGeneric>('/boards', async (request, reply) => {
-    const newBoard = boardService.create(request.body);
+    const newBoard = await boardService.create(request.body);
     if (newBoard) {
       reply.code(201);
       reply.send(newBoard);
@@ -93,7 +93,10 @@ const boardRouter = (
         reply.code(400);
         reply.send({ message: `This in not uuid: ${boardId}` });
       }
-      const updatedBoard = boardService.updateBoard(boardId, request.body);
+      const updatedBoard = await boardService.updateBoard(
+        boardId,
+        request.body
+      );
       if (updatedBoard) {
         reply.code(200);
         reply.send(updatedBoard);
@@ -119,10 +122,12 @@ const boardRouter = (
         reply.code(400);
         reply.send({ message: `This in not uuid: ${boardId}` });
       }
-      const deletedBoard = boardService.deleteBoard(boardId);
-      if (deletedBoard && deletedBoard.length >= 1) {
-        const boardTasks = taskService.getAllByBoardId(request.params.boardId);
-        taskService.deleteBoardsTasks(boardTasks);
+      const deletedBoard = await boardService.deleteBoard(boardId);
+      if (deletedBoard) {
+        const boardTasks = await taskService.getAllByBoardId(
+          request.params.boardId
+        );
+        await taskService.deleteBoardsTasks(boardTasks);
         reply.code(204);
       } else {
         reply.code(404);

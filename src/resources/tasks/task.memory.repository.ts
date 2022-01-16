@@ -1,20 +1,23 @@
 import Task from './task.model';
+import { getRepository } from 'typeorm';
+import { UserEntity } from '../users/user.entity';
+import { TaskEntity } from './task.entity';
 
-let taskRepository: Task[] = [];
+const taskRepository: Task[] = [];
 
 /**
  * Returns all Tasks.
  * @returns  Task
  */
-const getAll = () => taskRepository;
+const getAll = async () => await getRepository(TaskEntity).findAndCount();
 
 /**
  * Returns Task by its id
  * @param taskId : string
  * @returns Task
  */
-const getOneById = (taskId: string) =>
-  taskRepository.find((task: Task) => task.id === taskId);
+const getOneById = async (taskId: string) =>
+  await getRepository(TaskEntity).findOne(taskId);
 
 /**
  * Returns Task by its userId
@@ -38,19 +41,23 @@ const getAllByBoardId = (boardId: string) =>
  * @param boardId : string
  * @returns Task
  */
-const create = ({ taskData, boardId }: { taskData: Task; boardId: string }) => {
+const create = async ({
+  taskData,
+  boardId,
+}: {
+  taskData: Task;
+  boardId: string;
+}) => {
   const { title, order, description, userId, columnId } = taskData;
-
-  const newTask = new Task({
-    title,
-    order,
-    description,
-    userId,
-    boardId,
-    columnId,
-  });
-  taskRepository = [...taskRepository, newTask];
-  return newTask;
+  const newTask = new TaskEntity();
+  newTask.title = title;
+  newTask.order = order;
+  newTask.description = description;
+  newTask.columnId = columnId;
+  if (userId) {
+    newTask.user = await getRepository(UserEntity).findOne(userId);
+  }
+  return await getRepository(TaskEntity).save(newTask);
 };
 
 /**
@@ -59,21 +66,27 @@ const create = ({ taskData, boardId }: { taskData: Task; boardId: string }) => {
  * @param updatedTaskData : Task
  * @returns Task
  */
-const update = ({
+const update = async ({
   taskId,
   updatedTaskData,
 }: {
   taskId: string;
   updatedTaskData: Task;
 }) => {
-  const prevTask = taskRepository.find((task) => task.id === taskId);
-  if (prevTask) {
-    const index = taskRepository.indexOf(prevTask);
-    const updatedPerson = { ...prevTask, ...updatedTaskData };
-    taskRepository[index] = updatedPerson;
-    return updatedPerson;
-  }
-  return prevTask;
+  return await getRepository(TaskEntity)
+    .createQueryBuilder()
+    .update(TaskEntity)
+    .set({ ...updatedTaskData })
+    .where('id = :taskId', { taskId })
+    .execute();
+  // const prevTask = taskRepository.find((task) => task.id === taskId);
+  // if (prevTask) {
+  //   const index = taskRepository.indexOf(prevTask);
+  //   const updatedPerson = { ...prevTask, ...updatedTaskData };
+  //   taskRepository[index] = updatedPerson;
+  //   return updatedPerson;
+  // }
+  // return prevTask;
 };
 
 /**
@@ -81,13 +94,18 @@ const update = ({
  * @param taskId : string
  * @returns Task[]
  */
-const deleteById = (taskId: string) => {
-  const task = taskRepository.find((currentTask) => currentTask.id === taskId);
-  if (task) {
-    const index = taskRepository.indexOf(task);
-    return taskRepository.splice(index, 1);
-  }
-  return null;
+const deleteById = async (taskId: string) => {
+  return await getRepository(TaskEntity)
+    .createQueryBuilder()
+    .delete()
+    .where('id = :taskId', { taskId })
+    .execute();
+  // const task = taskRepository.find((currentTask) => currentTask.id === taskId);
+  // if (task) {
+  //   const index = taskRepository.indexOf(task);
+  //   return taskRepository.splice(index, 1);
+  // }
+  // return null;
 };
 
 export default {
