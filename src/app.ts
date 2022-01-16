@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import userRouter from './resources/users/user.router';
 import taskRouter from './resources/tasks/task.router';
 import boardRouter from './resources/boards/board.router';
+import fastifyTypeorm from 'fastify-typeorm';
+import { createConnection } from 'typeorm';
 import pino from 'pino';
 import * as http from 'http';
 import { logger } from './logger/logger';
@@ -17,9 +19,27 @@ const app: FastifyInstance = fastify<
   logger,
 });
 
+// @ts-ignore
+const POSTGRES_PORT: number = process.env.POSTGRES_PORT;
+const POSTGRES_USER = process.env.POSTGRES_USER;
+const POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD;
+const POSTGRES_DB = process.env.POSTGRES_DB;
+
+const connection = createConnection({
+  type: 'postgres',
+  host: 'host.docker.internal',
+  port: POSTGRES_PORT,
+  username: POSTGRES_USER,
+  password: POSTGRES_PASSWORD,
+  database: POSTGRES_DB,
+});
+
 app.register(userRouter);
 app.register(taskRouter);
 app.register(boardRouter);
+app.register(fastifyTypeorm, {
+  connection,
+});
 
 app.addHook('preHandler', function (req, reply, done) {
   if (req.body) {
