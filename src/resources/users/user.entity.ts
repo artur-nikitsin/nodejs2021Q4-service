@@ -17,4 +17,9 @@ export class UserEntity {
 
   @OneToMany(() => TaskEntity, (task) => task.user)
   tasks: TaskEntity[];
+
+  static toResponse(user: UserEntity) {
+    const { id, name, login } = user;
+    return { id, name, login };
+  }
 }

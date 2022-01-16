@@ -10,6 +10,8 @@ import * as http from 'http';
 import { logger } from './logger/logger';
 import { UserEntity } from './resources/users/user.entity';
 import { TaskEntity } from './resources/tasks/task.entity';
+import { BoardEntity } from './resources/boards/board.entity';
+import { ColumnEntity } from './resources/columns/column.entity';
 dotenv.config();
 
 const app: FastifyInstance = fastify<
@@ -34,7 +36,7 @@ export const connection = createConnection({
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB,
-  entities: [UserEntity, TaskEntity],
+  entities: [UserEntity, TaskEntity, BoardEntity, ColumnEntity],
   synchronize: true,
 });
 

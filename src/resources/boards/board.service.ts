@@ -5,8 +5,8 @@ import boardRepository from './board.memory.repository';
  * Returns all Boards.
  * @returns  Board[]
  */
-const getAll = () => {
-  return boardRepository.getAll();
+const getAll = async () => {
+  return await boardRepository.getAll();
 };
 
 /**
@@ -14,8 +14,8 @@ const getAll = () => {
  * @param boardId : string
  * @returns Board
  */
-const getOneById = (boardId: string) => {
-  return boardRepository.getOneById(boardId);
+const getOneById = async (boardId: string) => {
+  return await boardRepository.getOneById(boardId);
 };
 
 /**
@@ -23,8 +23,8 @@ const getOneById = (boardId: string) => {
  * @param body : Board
  * @returns Board
  */
-const create = (body: Board) => {
-  return boardRepository.create(body);
+const create = async (body: Board) => {
+  return await boardRepository.create(body);
 };
 
 /**
@@ -33,8 +33,8 @@ const create = (body: Board) => {
  * @param updatedBoardData : Board
  * @returns Board
  */
-const updateBoard = (boardId: string, updatedBoardData: Board) => {
-  return boardRepository.update({
+const updateBoard = async (boardId: string, updatedBoardData: Board) => {
+  return await boardRepository.update({
     boardId: boardId,
     updatedBoardData: updatedBoardData,
   });
@@ -45,8 +45,8 @@ const updateBoard = (boardId: string, updatedBoardData: Board) => {
  * @param boardId : string
  * @returns Board[]
  */
-const deleteBoard = (boardId: string) => {
-  return boardRepository.deleteById(boardId);
+const deleteBoard = async (boardId: string) => {
+  return await boardRepository.deleteById(boardId);
 };
 
 export default { getAll, create, getOneById, updateBoard, deleteBoard };

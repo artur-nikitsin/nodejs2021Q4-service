@@ -1,4 +1,4 @@
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import { PrimaryGeneratedColumn, Column, Entity, ManyToOne } from 'typeorm';
 import { ColumnEntity } from '../columns/column.entity';
 
 @Entity()
@@ -9,6 +9,6 @@ export class BoardEntity {
   @Column()
   title: string;
 
-  @Column()
+  @ManyToOne(() => ColumnEntity, (column) => column.board)
   columns: ColumnEntity[];
 }

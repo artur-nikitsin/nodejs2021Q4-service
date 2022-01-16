@@ -31,7 +31,7 @@ const create = async (userData: UserEntity) => {
   user.name = name;
   user.login = login;
   user.password = password;
-  return await getRepository(UserEntity).save(user);
+  return UserEntity.toResponse(await getRepository(UserEntity).save(user));
 };
 
 /**
@@ -53,14 +53,6 @@ const update = async ({
     .set({ ...updatedUserData })
     .where('id = :userId', { userId })
     .execute();
-  // const prevUser = usersRepository.find((user) => user.id === userId);
-  // if (prevUser) {
-  //   const index = usersRepository.indexOf(prevUser);
-  //   const updatedPerson = { ...prevUser, ...updatedUserData };
-  //   usersRepository[index] = updatedPerson;
-  //   return updatedPerson;
-  // }
-  // return prevUser;
 };
 
 /**
@@ -74,17 +66,6 @@ const deleteById = async (userId: string) => {
     .delete()
     .where('id = :userId', { userId })
     .execute();
-  // const user = usersRepository.find((currentUser) => currentUser.id === userId);
-  // if (user) {
-  //   const index = usersRepository.indexOf(user);
-  //
-  //   const usersTasks: Task[] = taskService.getAllByUserId(user.id);
-  //
-  //   taskService.reassignUserTasks(usersTasks);
-  //
-  //   return usersRepository.splice(index, 1);
-  // }
-  // return null;
 };
 
 export default {
