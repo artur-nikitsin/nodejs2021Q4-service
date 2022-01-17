@@ -10,7 +10,7 @@ export class ColumnEntity {
   title: string;
 
   @Column()
-  order: string;
+  order: number;
 
   @ManyToOne(() => BoardEntity, (board) => board.columns)
   board: BoardEntity;

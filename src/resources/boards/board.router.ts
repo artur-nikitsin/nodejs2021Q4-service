@@ -7,7 +7,6 @@ import boardService from './board.service';
 
 import Board from './board.model';
 import { validate } from 'uuid';
-import taskService from '../tasks/task.service';
 
 export interface requestBoardGeneric extends RequestGenericInterface {
   Params: {
@@ -123,11 +122,12 @@ const boardRouter = (
         reply.send({ message: `This in not uuid: ${boardId}` });
       }
       const deletedBoard = await boardService.deleteBoard(boardId);
+      console.log('@@@@@@', deletedBoard);
       if (deletedBoard) {
-        const boardTasks = await taskService.getAllByBoardId(
-          request.params.boardId
-        );
-        await taskService.deleteBoardsTasks(boardTasks);
+        // const boardTasks = await taskService.getAllByBoardId(
+        //   request.params.boardId
+        // );
+        // await taskService.deleteBoardsTasks(boardTasks);
         reply.code(204);
       } else {
         reply.code(404);

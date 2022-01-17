@@ -1,6 +1,8 @@
 import Board from './board.model';
 import { getRepository } from 'typeorm';
 import { BoardEntity } from './board.entity';
+import columnRepositiry from '../columns/column. repositiry';
+import { ColumnEntity } from '../columns/column.entity';
 
 // let boardRepository: Board[] = [];
 
@@ -8,7 +10,10 @@ import { BoardEntity } from './board.entity';
  * Returns all Boards.
  * @returns  Board[]
  */
-const getAll = async () => await getRepository(BoardEntity).findAndCount();
+const getAll = async () =>
+  await getRepository(BoardEntity).find({
+    relations: ['columns'],
+  });
 
 /**
  * Returns Board by its id
@@ -16,7 +21,10 @@ const getAll = async () => await getRepository(BoardEntity).findAndCount();
  * @returns Board
  */
 const getOneById = async (boardId: string) =>
-  await getRepository(BoardEntity).findOne(boardId);
+  await getRepository(BoardEntity).findOne({
+    where: { id: boardId },
+    relations: ['columns'],
+  });
 
 /**
  * Create Board with boardData
@@ -27,8 +35,13 @@ const create = async (boardData: Board) => {
   const { title, columns } = boardData;
   const newBoard = new BoardEntity();
   newBoard.title = title;
-  // @ts-ignore
-  newBoard.columns = columns;
+  if (columns && columns.length > 0) {
+    newBoard.columns = await Promise.all(
+      columns.map(async (column) => {
+        return await columnRepositiry.createColumn(column);
+      })
+    );
+  }
   return await getRepository(BoardEntity).save(newBoard);
 };
 
@@ -45,20 +58,32 @@ const update = async ({
   boardId: string;
   updatedBoardData: Board;
 }) => {
-  // const prevBoard = boardRepository.find((board) => board.id === boardId);
-  // if (prevBoard) {
-  //   const index = boardRepository.indexOf(prevBoard);
-  //   const updatedBoard = { ...prevBoard, ...updatedBoardData };
-  //   boardRepository[index] = updatedBoard;
-  //   return updatedBoard;
-  // }
-  // return prevBoard;
-  return await getRepository(BoardEntity)
-    .createQueryBuilder()
-    .update(BoardEntity)
-    .set({ ...updatedBoardData })
-    .where('id = :boardId', { boardId })
-    .execute();
+  const { title, columns } = updatedBoardData;
+  const prevBoard = await getRepository(BoardEntity).findOne({
+    where: { id: boardId },
+    relations: ['columns'],
+  });
+  let updatedColumns: ColumnEntity[] = [];
+  if (columns && columns.length > 0) {
+    updatedColumns = await Promise.all(
+      columns.map(async (column) => {
+        const prevColumn = await columnRepositiry.getOneById(column.id);
+        if (prevColumn) {
+          return await columnRepositiry.updateColumn({
+            ...prevColumn,
+            ...column,
+          });
+        }
+        return await columnRepositiry.createColumn(column);
+      })
+    );
+  }
+
+  return await getRepository(BoardEntity).save({
+    ...prevBoard,
+    title,
+    columns: updatedColumns,
+  });
 };
 
 /**
@@ -67,19 +92,7 @@ const update = async ({
  * @returns Board[]
  */
 const deleteById = async (boardId: string) => {
-  return await getRepository(BoardEntity)
-    .createQueryBuilder()
-    .delete()
-    .where('id = :boardId', { boardId })
-    .execute();
-  // const board = boardRepository.find(
-  //   (currentBoard) => currentBoard.id === boardId
-  // );
-  // if (board) {
-  //   const index = boardRepository.indexOf(board);
-  //   return boardRepository.splice(index, 1);
-  // }
-  // return null;
+  return await getRepository(BoardEntity).delete(boardId);
 };
 
 export default {

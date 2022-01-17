@@ -3,18 +3,18 @@ import { v4 } from 'uuid';
 export interface ColumnInterface {
   id: string;
   title: string;
-  order: string;
+  order: number;
 }
 
 export type ColumnConstructorProps = {
   title: string;
-  order: string;
+  order: number;
 };
 
 class Column implements ColumnInterface {
   public id: string;
   public title: string;
-  public order: string;
+  public order: number;
   constructor({ title, order }: ColumnConstructorProps) {
     this.id = v4();
     this.title = title;

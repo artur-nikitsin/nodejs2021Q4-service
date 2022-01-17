@@ -24,16 +24,16 @@ const getOneById = async (taskId: string) =>
  * @param userId : string
  * @returns Task[]
  */
-const getAllByUserId = (userId: string) =>
-  taskRepository.filter((task: Task) => task.userId === userId);
+const getAllByUserId = async (userId: string) =>
+  await taskRepository.filter((task: Task) => task.userId === userId);
 
 /**
  * Returns Task by its boardId
  * @param boardId : string
  * @returns Task[]
  */
-const getAllByBoardId = (boardId: string) =>
-  taskRepository.filter((task: Task) => task.boardId === boardId);
+const getAllByBoardId = async (boardId: string) =>
+  await taskRepository.filter((task: Task) => task.boardId === boardId);
 
 /**
  * Create Task with taskData and boardId

@@ -1,5 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserEntity } from '../users/user.entity';
+import Board from '../boards/board.model';
+import { BoardEntity } from '../boards/board.entity';
 
 @Entity()
 export class TaskEntity {
@@ -18,8 +20,8 @@ export class TaskEntity {
   @ManyToOne(() => UserEntity, (user) => user.tasks)
   user: UserEntity | undefined;
 
-  @Column()
-  boardId: string;
+  @ManyToOne(() => BoardEntity, (board) => board.tasks)
+  board: Board;
 
   @Column()
   columnId: string;
