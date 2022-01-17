@@ -15,7 +15,7 @@ export class UserEntity {
   @Column()
   password: string;
 
-  @OneToMany(() => TaskEntity, (task) => task.user)
+  @OneToMany(() => TaskEntity, (task) => task.userId)
   tasks: TaskEntity[];
 
   static toResponse(user: UserEntity) {

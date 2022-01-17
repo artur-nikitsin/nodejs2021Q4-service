@@ -2,6 +2,7 @@ import Task from './task.model';
 import { getRepository } from 'typeorm';
 import { UserEntity } from '../users/user.entity';
 import { TaskEntity } from './task.entity';
+import columnRepositiry from '../columns/column. repositiry';
 
 const taskRepository: Task[] = [];
 
@@ -17,7 +18,10 @@ const getAll = async () => await getRepository(TaskEntity).findAndCount();
  * @returns Task
  */
 const getOneById = async (taskId: string) =>
-  await getRepository(TaskEntity).findOne(taskId);
+  await getRepository(TaskEntity).findOne({
+    where: { id: taskId },
+    relations: ['columnId', 'userId'],
+  });
 
 /**
  * Returns Task by its userId
@@ -53,9 +57,14 @@ const create = async ({
   newTask.title = title;
   newTask.order = order;
   newTask.description = description;
-  newTask.columnId = columnId;
+
+  const column = await columnRepositiry.getOneById(columnId);
+  if (!column) {
+    throw Error(`Column with id: ${columnId} not found`);
+  }
+  newTask.columnId = column;
   if (userId) {
-    newTask.user = await getRepository(UserEntity).findOne(userId);
+    newTask.userId = await getRepository(UserEntity).findOne(userId);
   }
   return await getRepository(TaskEntity).save(newTask);
 };
@@ -73,20 +82,17 @@ const update = async ({
   taskId: string;
   updatedTaskData: Task;
 }) => {
-  return await getRepository(TaskEntity)
-    .createQueryBuilder()
-    .update(TaskEntity)
-    .set({ ...updatedTaskData })
-    .where('id = :taskId', { taskId })
-    .execute();
-  // const prevTask = taskRepository.find((task) => task.id === taskId);
-  // if (prevTask) {
-  //   const index = taskRepository.indexOf(prevTask);
-  //   const updatedPerson = { ...prevTask, ...updatedTaskData };
-  //   taskRepository[index] = updatedPerson;
-  //   return updatedPerson;
-  // }
-  // return prevTask;
+  const { userId } = updatedTaskData;
+  const prevTask = await getOneById(taskId);
+
+  let user = undefined;
+  if (userId) {
+    user = await getRepository(UserEntity).findOne(userId);
+  }
+
+  const updatedTask = { ...prevTask, userId: user };
+
+  return await getRepository(TaskEntity).save(updatedTask);
 };
 
 /**
@@ -100,12 +106,6 @@ const deleteById = async (taskId: string) => {
     .delete()
     .where('id = :taskId', { taskId })
     .execute();
-  // const task = taskRepository.find((currentTask) => currentTask.id === taskId);
-  // if (task) {
-  //   const index = taskRepository.indexOf(task);
-  //   return taskRepository.splice(index, 1);
-  // }
-  // return null;
 };
 
 export default {

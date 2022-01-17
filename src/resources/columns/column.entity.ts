@@ -1,5 +1,12 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { BoardEntity } from '../boards/board.entity';
+import { TaskEntity } from '../tasks/task.entity';
 
 @Entity()
 export class ColumnEntity {
@@ -13,5 +20,8 @@ export class ColumnEntity {
   order: number;
 
   @ManyToOne(() => BoardEntity, (board) => board.columns)
-  board: BoardEntity;
+  boardId: BoardEntity;
+
+  @OneToMany(() => TaskEntity, (task) => task.columnId)
+  tasks: BoardEntity;
 }

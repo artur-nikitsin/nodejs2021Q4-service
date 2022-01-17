@@ -122,12 +122,7 @@ const boardRouter = (
         reply.send({ message: `This in not uuid: ${boardId}` });
       }
       const deletedBoard = await boardService.deleteBoard(boardId);
-      console.log('@@@@@@', deletedBoard);
       if (deletedBoard) {
-        // const boardTasks = await taskService.getAllByBoardId(
-        //   request.params.boardId
-        // );
-        // await taskService.deleteBoardsTasks(boardTasks);
         reply.code(204);
       } else {
         reply.code(404);
