@@ -23,8 +23,9 @@ const app: FastifyInstance = fastify<
   logger,
 });
 
-// @ts-ignore
-const POSTGRES_PORT: number = process.env.POSTGRES_PORT;
+const POSTGRES_PORT: number = process.env.POSTGRES_PORT
+  ? +process.env.POSTGRES_PORT
+  : 5432;
 const POSTGRES_USER = process.env.POSTGRES_USER;
 const POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD;
 const POSTGRES_DB = process.env.POSTGRES_DB;
