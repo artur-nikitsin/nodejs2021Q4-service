@@ -5,8 +5,8 @@ import taskRepository from './task.memory.repository';
  * Returns all Tasks.
  * @returns  Task[]
  */
-const getAll = () => {
-  return taskRepository.getAll();
+const getAll = async () => {
+  return await taskRepository.getAll();
 };
 
 /**
@@ -14,8 +14,8 @@ const getAll = () => {
  * @param taskId : string
  * @returns Task
  */
-const getOneById = (taskId: string) => {
-  return taskRepository.getOneById(taskId);
+const getOneById = async (taskId: string) => {
+  return await taskRepository.getOneById(taskId);
 };
 
 /**
@@ -23,15 +23,15 @@ const getOneById = (taskId: string) => {
  * @param userId : string
  * @returns Task[]
  */
-const getAllByUserId = (userId: string) =>
-  taskRepository.getAllByUserId(userId);
+const getAllByUserId = async (userId: string) =>
+  await taskRepository.getAllByUserId(userId);
 /**
  * Returns Task by its boardId
  * @param boardId : string
  * @returns Task[]
  */
-const getAllByBoardId = (boardId: string) =>
-  taskRepository.getAllByBoardId(boardId);
+const getAllByBoardId = async (boardId: string) =>
+  await taskRepository.getAllByBoardId(boardId);
 
 /**
  * Create Task with taskData and boardId
@@ -39,8 +39,8 @@ const getAllByBoardId = (boardId: string) =>
  * @param boardId : string
  * @returns Task
  */
-const create = (boardId: string, taskBody: Task) => {
-  return taskRepository.create({
+const create = async (boardId: string, taskBody: Task) => {
+  return await taskRepository.create({
     taskData: taskBody,
     boardId: boardId,
   });
@@ -52,9 +52,10 @@ const create = (boardId: string, taskBody: Task) => {
  * @param taskBody : Task
  * @returns Task
  */
-const updateTask = (taskId: string, taskBody: Task) => {
-  return taskRepository.update({
+const updateTask = async (taskId: string, boardId: string, taskBody: Task) => {
+  return await taskRepository.update({
     taskId,
+    boardId,
     updatedTaskData: taskBody,
   });
 };
@@ -64,18 +65,19 @@ const updateTask = (taskId: string, taskBody: Task) => {
  * @param taskId : string
  * @returns Task[]
  */
-const deleteTask = (taskId: string) => {
-  return taskRepository.deleteById(taskId);
+const deleteTask = async (taskId: string) => {
+  return await taskRepository.deleteById(taskId);
 };
 
 /**
  * Reassign task from User
  * @param usersTasks : Task[]
  */
-const reassignUserTasks = (usersTasks: Task[]) => {
+const reassignUserTasks = async (usersTasks: Task[]) => {
   usersTasks.forEach((task) =>
     taskRepository.update({
       taskId: task.id,
+      boardId: '123',
       updatedTaskData: { ...task, userId: null },
     })
   );

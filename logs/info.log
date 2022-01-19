@@ -1,0 +1,459 @@
+[12:03:18 UTC] [32mINFO[39m: [36mServer listening at http://127.0.0.1:4000[39m
+[05:59:53 UTC] [32mINFO[39m: [36mServer listening at http://127.0.0.1:4000[39m
+[06:32:49 UTC] INFO: Server listening at http://127.0.0.1:4000
+[06:35:44 UTC] INFO: Server listening at http://127.0.0.1:4000
+[06:41:56 UTC] INFO: Server listening at http://127.0.0.1:4000
+[06:42:50 UTC] INFO: Server listening at http://127.0.0.1:4000
+127.0.0.1:4000[39m
+[06:42:34 UTC] [32mINFO[39m: [36mincoming request[39m
+    req: {
+      "method": "GET",
+      "url": "/",
+      "parameters": {},
+      "headers": {
+        "host": "127.0.0.1:4000",
+        "connection": "keep-alive",
+        "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        "sec-fetch-site": "none",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-user": "?1",
+        "sec-fetch-dest": "document",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
+      }
+    }
+    reqId: "req-1"
+[06:42:34 UTC] [32mINFO[39m: [36mRoute GET:/ not found[39m
+    reqId: "req-1"
+[06:42:34 UTC] [32mINFO[39m: [36mrequest completed[39m
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 7.382582902908325
+    reqId: "req-1"
+[06:42:34 UTC] [32mINFO[39m: [36mincoming request[39m
+    req: {
+      "method": "GET",
+      "url": "/favicon.ico",
+      "parameters": {
+        "*": "favicon.ico"
+      },
+      "headers": {
+        "host": "127.0.0.1:4000",
+        "connection": "keep-alive",
+        "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"",
+        "sec-ch-ua-mobile": "?0",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "no-cors",
+        "sec-fetch-dest": "image",
+        "referer": "http://127.0.0.1:4000/",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
+      }
+    }
+    reqId: "req-2"
+[06:42:34 UTC] [32mINFO[39m: [36mRoute GET:/favicon.ico not found[39m
+    reqId: "req-2"
+[06:42:34 UTC] [32mINFO[39m: [36mrequest completed[39m
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 0.3830840587615967
+    reqId: "req-2"
+[14:30:47 UTC] INFO: Server listening at http://127.0.0.1:4000
+[14:39:19 UTC] INFO: Server listening at http://127.0.0.1:4000
+[20:05:13 UTC] INFO: Server listening at http://127.0.0.1:4000
+[17:57:01 UTC] INFO: Server listening at http://127.0.0.1:4000
+[18:00:25 UTC] [32mINFO[39m: [36mServer listening at http://127.0.0.1:4001[39m
+[18:00:31 UTC] [32mINFO[39m: [36mincoming request[39m
+    req: {
+      "method": "GET",
+      "url": "/",
+      "parameters": {},
+      "headers": {
+        "host": "127.0.0.1:4001",
+        "connection": "keep-alive",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        "sec-fetch-site": "none",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-user": "?1",
+        "sec-fetch-dest": "document",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
+      }
+    }
+    reqId: "req-1"
+[18:00:31 UTC] [32mINFO[39m: [36mRoute GET:/ not found[39m
+    reqId: "req-1"
+[18:00:31 UTC] [32mINFO[39m: [36mrequest completed[39m
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 8.044124998152256
+    reqId: "req-1"
+[18:00:32 UTC] [32mINFO[39m: [36mincoming request[39m
+    req: {
+      "method": "GET",
+      "url": "/favicon.ico",
+      "parameters": {
+        "*": "favicon.ico"
+      },
+      "headers": {
+        "host": "127.0.0.1:4001",
+        "connection": "keep-alive",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"",
+        "sec-ch-ua-mobile": "?0",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "no-cors",
+        "sec-fetch-dest": "image",
+        "referer": "http://127.0.0.1:4001/",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
+      }
+    }
+    reqId: "req-2"
+[18:00:32 UTC] [32mINFO[39m: [36mRoute GET:/favicon.ico not found[39m
+    reqId: "req-2"
+[18:00:32 UTC] [32mINFO[39m: [36mrequest completed[39m
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 0.40950000286102295
+    reqId: "req-2"
+[18:02:11 UTC] INFO: Server listening at http://127.0.0.1:4001
+[18:03:19 UTC] INFO: Server listening at http://127.0.0.1:4001
+[18:06:37 UTC] INFO: Server listening at http://127.0.0.1:4001
+[18:07:39 UTC] INFO: Server listening at http://127.0.0.1:5001
+[18:08:16 UTC] [32mINFO[39m: [36mServer listening at http://127.0.0.1:5001[39m
+[18:08:17 UTC] [32mINFO[39m: [36mincoming request[39m
+    req: {
+      "method": "GET",
+      "url": "/",
+      "parameters": {},
+      "headers": {
+        "host": "127.0.0.1:5001",
+        "connection": "keep-alive",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        "sec-fetch-site": "none",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-user": "?1",
+        "sec-fetch-dest": "document",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
+      }
+    }
+    reqId: "req-1"
+[18:08:17 UTC] [32mINFO[39m: [36mRoute GET:/ not found[39m
+    reqId: "req-1"
+[18:08:17 UTC] [32mINFO[39m: [36mrequest completed[39m
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 3.5071660056710243
+    reqId: "req-1"
+[18:08:18 UTC] [32mINFO[39m: [36mincoming request[39m
+    req: {
+      "method": "GET",
+      "url": "/favicon.ico",
+      "parameters": {
+        "*": "favicon.ico"
+      },
+      "headers": {
+        "host": "127.0.0.1:5001",
+        "connection": "keep-alive",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"",
+        "sec-ch-ua-mobile": "?0",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "no-cors",
+        "sec-fetch-dest": "image",
+        "referer": "http://127.0.0.1:5001/",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
+      }
+    }
+    reqId: "req-2"
+[18:08:18 UTC] [32mINFO[39m: [36mRoute GET:/favicon.ico not found[39m
+    reqId: "req-2"
+[18:08:18 UTC] [32mINFO[39m: [36mrequest completed[39m
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 1.8117910027503967
+    reqId: "req-2"
+[18:12:37 UTC] INFO: Server listening at http://127.0.0.1:5001
+[18:14:42 UTC] INFO: Server listening at http://127.0.0.1:5001
+[08:17:46 UTC] INFO: Server listening at http://127.0.0.1:5001
+[08:40:43 UTC] [32mINFO[39m: [36mServer listening at http://127.0.0.1:5001[39m
+[08:40:49 UTC] [32mINFO[39m: [36mincoming request[39m
+    req: {
+      "method": "GET",
+      "url": "/",
+      "parameters": {},
+      "headers": {
+        "host": "127.0.0.1:5001",
+        "connection": "keep-alive",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        "sec-fetch-site": "none",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-user": "?1",
+        "sec-fetch-dest": "document",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
+      }
+    }
+    reqId: "req-1"
+[08:40:49 UTC] [32mINFO[39m: [36mRoute GET:/ not found[39m
+    reqId: "req-1"
+[08:40:49 UTC] [32mINFO[39m: [36mrequest completed[39m
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 8.532292008399963
+    reqId: "req-1"
+[08:40:49 UTC] [32mINFO[39m: [36mincoming request[39m
+    req: {
+      "method": "GET",
+      "url": "/favicon.ico",
+      "parameters": {
+        "*": "favicon.ico"
+      },
+      "headers": {
+        "host": "127.0.0.1:5001",
+        "connection": "keep-alive",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"",
+        "sec-ch-ua-mobile": "?0",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "no-cors",
+        "sec-fetch-dest": "image",
+        "referer": "http://127.0.0.1:5001/",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
+      }
+    }
+    reqId: "req-2"
+[08:40:49 UTC] [32mINFO[39m: [36mRoute GET:/favicon.ico not found[39m
+    reqId: "req-2"
+[08:40:49 UTC] [32mINFO[39m: [36mrequest completed[39m
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 1.146708995103836
+    reqId: "req-2"
+[11:46:40 UTC] [32mINFO[39m: [36mServer listening at http://127.0.0.1:4000[39m
+[11:46:45 UTC] [32mINFO[39m: [36mincoming request[39m
+    req: {
+      "method": "GET",
+      "url": "/",
+      "parameters": {},
+      "headers": {
+        "host": "127.0.0.1:4000",
+        "connection": "keep-alive",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        "sec-fetch-site": "none",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-user": "?1",
+        "sec-fetch-dest": "document",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
+      }
+    }
+    reqId: "req-1"
+[11:46:45 UTC] [32mINFO[39m: [36mRoute GET:/ not found[39m
+    reqId: "req-1"
+[11:46:45 UTC] [32mINFO[39m: [36mrequest completed[39m
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 4.001874998211861
+    reqId: "req-1"
+[11:46:45 UTC] [32mINFO[39m: [36mincoming request[39m
+    req: {
+      "method": "GET",
+      "url": "/favicon.ico",
+      "parameters": {
+        "*": "favicon.ico"
+      },
+      "headers": {
+        "host": "127.0.0.1:4000",
+        "connection": "keep-alive",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"",
+        "sec-ch-ua-mobile": "?0",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "no-cors",
+        "sec-fetch-dest": "image",
+        "referer": "http://127.0.0.1:4000/",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
+      }
+    }
+    reqId: "req-2"
+[11:46:45 UTC] [32mINFO[39m: [36mRoute GET:/favicon.ico not found[39m
+    reqId: "req-2"
+[11:46:45 UTC] [32mINFO[39m: [36mrequest completed[39m
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 0.7102919965982437
+    reqId: "req-2"
+[11:51:24 UTC] [32mINFO[39m: [36mServer listening at http://127.0.0.1:4000[39m
+[11:52:25 UTC] [32mINFO[39m: [36mincoming request[39m
+    req: {
+      "method": "GET",
+      "url": "/",
+      "parameters": {},
+      "headers": {
+        "host": "127.0.0.1:4000",
+        "connection": "keep-alive",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        "sec-fetch-site": "none",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-user": "?1",
+        "sec-fetch-dest": "document",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
+      }
+    }
+    reqId: "req-1"
+[11:52:25 UTC] [32mINFO[39m: [36mRoute GET:/ not found[39m
+    reqId: "req-1"
+[11:52:25 UTC] [32mINFO[39m: [36mrequest completed[39m
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 13.046499997377396
+    reqId: "req-1"
+[11:52:31 UTC] [32mINFO[39m: [36mincoming request[39m
+    req: {
+      "method": "GET",
+      "url": "/",
+      "parameters": {},
+      "headers": {
+        "host": "127.0.0.1:4000",
+        "connection": "keep-alive",
+        "cache-control": "max-age=0",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        "sec-fetch-site": "none",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-user": "?1",
+        "sec-fetch-dest": "document",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
+      }
+    }
+    reqId: "req-2"
+[11:52:31 UTC] [32mINFO[39m: [36mRoute GET:/ not found[39m
+    reqId: "req-2"
+[11:52:31 UTC] [32mINFO[39m: [36mrequest completed[39m
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 1.7590830028057098
+    reqId: "req-2"
+[11:54:32 UTC] [32mINFO[39m: [36mServer listening at http://0.0.0.0:4000[39m
+[11:54:35 UTC] [32mINFO[39m: [36mincoming request[39m
+    req: {
+      "method": "GET",
+      "url": "/",
+      "parameters": {},
+      "headers": {
+        "host": "0.0.0.0:4000",
+        "connection": "keep-alive",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        "accept-encoding": "gzip, deflate",
+        "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
+      }
+    }
+    reqId: "req-1"
+[11:54:35 UTC] [32mINFO[39m: [36mRoute GET:/ not found[39m
+    reqId: "req-1"
+[11:54:35 UTC] [32mINFO[39m: [36mrequest completed[39m
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 20.128624990582466
+    reqId: "req-1"
+[11:55:36 UTC] [32mINFO[39m: [36mServer listening at http://127.0.0.1:4000[39m
+[11:57:29 UTC] [32mINFO[39m: [36mServer listening at http://127.0.0.1:4000[39m
+[11:57:30 UTC] [32mINFO[39m: [36mincoming request[39m
+    req: {
+      "method": "GET",
+      "url": "/",
+      "parameters": {},
+      "headers": {
+        "host": "127.0.0.1:4000",
+        "connection": "keep-alive",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        "sec-fetch-site": "none",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-user": "?1",
+        "sec-fetch-dest": "document",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
+      }
+    }
+    reqId: "req-1"
+[11:57:30 UTC] [32mINFO[39m: [36mRoute GET:/ not found[39m
+    reqId: "req-1"
+[11:57:30 UTC] [32mINFO[39m: [36mrequest completed[39m
+    res: {
+      "statusCode": 404
+    }
+    responseTime: 7.574167013168335
+    reqId: "req-1"

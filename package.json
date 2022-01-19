@@ -5,11 +5,11 @@
     "type": "git",
     "url": ""
   },
-  "type": "module",
+  "type": "commonjs",
   "description": "REST service starter for RS School",
   "main": "src/server.ts",
   "scripts": {
-    "start": "ts-node-dev --respawn src/server.ts",
+    "start": "nodemon src/server.ts --legacy-watch --exitcrash",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
@@ -51,9 +51,12 @@
     "dotenv": "10.0.0",
     "express": "4.17.1",
     "fastify": "^3.24.1",
+    "fastify-typeorm": "^2.1.2",
+    "pg": "^8.7.1",
     "pino": "^7.6.1",
     "pino-pretty": "^7.3.0",
     "swagger-ui-express": "4.1.6",
+    "typeorm": "^0.2.41",
     "uuid": "8.3.2",
     "yamljs": "0.3.0"
   },

@@ -1,36 +1,51 @@
 import Task from './task.model';
+import { getRepository } from 'typeorm';
+import { TaskEntity } from './task.entity';
+import boardMemoryRepository from '../boards/board.memory.repository';
+import userMemoryRepository from '../users/user.memory.repository';
+import columnRepositiry from '../columns/column. repositiry';
 
-let taskRepository: Task[] = [];
+const taskRepository: Task[] = [];
 
 /**
  * Returns all Tasks.
  * @returns  Task
  */
-const getAll = () => taskRepository;
+const getAll = async () =>
+  await getRepository(TaskEntity).find({
+    relations: ['userId', 'columnId', 'boardId'],
+  });
 
 /**
  * Returns Task by its id
  * @param taskId : string
  * @returns Task
  */
-const getOneById = (taskId: string) =>
-  taskRepository.find((task: Task) => task.id === taskId);
+const getOneById = async (taskId: string) =>
+  await getRepository(TaskEntity).findOne({
+    where: { id: taskId },
+    relations: ['columnId', 'userId', 'boardId'],
+  });
 
 /**
  * Returns Task by its userId
  * @param userId : string
  * @returns Task[]
  */
-const getAllByUserId = (userId: string) =>
-  taskRepository.filter((task: Task) => task.userId === userId);
+const getAllByUserId = async (userId: string) => {
+  return await getRepository(TaskEntity).find({
+    where: { userId: userId },
+    relations: ['columnId', 'userId', 'boardId'],
+  });
+};
 
 /**
  * Returns Task by its boardId
  * @param boardId : string
  * @returns Task[]
  */
-const getAllByBoardId = (boardId: string) =>
-  taskRepository.filter((task: Task) => task.boardId === boardId);
+const getAllByBoardId = async (boardId: string) =>
+  await taskRepository.filter((task: Task) => task.boardId === boardId);
 
 /**
  * Create Task with taskData and boardId
@@ -38,19 +53,42 @@ const getAllByBoardId = (boardId: string) =>
  * @param boardId : string
  * @returns Task
  */
-const create = ({ taskData, boardId }: { taskData: Task; boardId: string }) => {
+const create = async ({
+  taskData,
+  boardId,
+}: {
+  taskData: Task;
+  boardId: string;
+}) => {
   const { title, order, description, userId, columnId } = taskData;
 
-  const newTask = new Task({
-    title,
-    order,
-    description,
-    userId,
-    boardId,
-    columnId,
-  });
-  taskRepository = [...taskRepository, newTask];
-  return newTask;
+  const newTask = new TaskEntity();
+  newTask.title = title;
+  newTask.order = order;
+  newTask.description = description;
+  if (userId) {
+    newTask.userId = await userMemoryRepository.getOneById(userId);
+  } else {
+    newTask.userId = undefined;
+  }
+  if (columnId) {
+    const column = await columnRepositiry.getOneById(columnId);
+    if (column) {
+      newTask.columnId = column;
+    }
+  } else {
+    newTask.userId = undefined;
+  }
+  if (boardId) {
+    const board = await boardMemoryRepository.getOneById(boardId);
+    if (board) {
+      newTask.boardId = board;
+    }
+  } else {
+    newTask.boardId = null;
+  }
+
+  return await getRepository(TaskEntity).save(newTask);
 };
 
 /**
@@ -59,21 +97,44 @@ const create = ({ taskData, boardId }: { taskData: Task; boardId: string }) => {
  * @param updatedTaskData : Task
  * @returns Task
  */
-const update = ({
+const update = async ({
   taskId,
+  boardId,
   updatedTaskData,
 }: {
   taskId: string;
+  boardId: string;
   updatedTaskData: Task;
 }) => {
-  const prevTask = taskRepository.find((task) => task.id === taskId);
+  const { title, order, description, userId, columnId } = updatedTaskData;
+  const prevTask = await getOneById(taskId);
   if (prevTask) {
-    const index = taskRepository.indexOf(prevTask);
-    const updatedPerson = { ...prevTask, ...updatedTaskData };
-    taskRepository[index] = updatedPerson;
-    return updatedPerson;
+    prevTask.title = title;
+    prevTask.order = order;
+    prevTask.description = description;
+    if (userId) {
+      prevTask.userId = await userMemoryRepository.getOneById(userId);
+    } else {
+      prevTask.userId = undefined;
+    }
+    if (columnId) {
+      const column = await columnRepositiry.getOneById(columnId);
+      if (column) {
+        prevTask.columnId = column;
+      }
+    } else {
+      prevTask.userId = undefined;
+    }
+    if (boardId) {
+      const board = await boardMemoryRepository.getOneById(boardId);
+      if (board) {
+        prevTask.boardId = board;
+      }
+    } else {
+      prevTask.boardId = null;
+    }
+    return await getRepository(TaskEntity).save(prevTask);
   }
-  return prevTask;
 };
 
 /**
@@ -81,13 +142,12 @@ const update = ({
  * @param taskId : string
  * @returns Task[]
  */
-const deleteById = (taskId: string) => {
-  const task = taskRepository.find((currentTask) => currentTask.id === taskId);
-  if (task) {
-    const index = taskRepository.indexOf(task);
-    return taskRepository.splice(index, 1);
-  }
-  return null;
+const deleteById = async (taskId: string) => {
+  return await getRepository(TaskEntity)
+    .createQueryBuilder()
+    .delete()
+    .where('id = :taskId', { taskId })
+    .execute();
 };
 
 export default {

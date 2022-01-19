@@ -1,33 +1,40 @@
-import User from './user.model';
-import taskService from '../tasks/task.service';
-import Task from '../tasks/task.model';
-
-let usersRepository: Array<User> = [];
+import { getRepository } from 'typeorm';
+import { UserEntity } from './user.entity';
+// import taskMemoryRepository from '../tasks/task.memory.repository';
+// import { TaskEntity } from '../tasks/task.entity';
 
 /**
  * Returns all Users.
  * @returns  User[]
  */
-const getAll = () => usersRepository.map((user) => User.toResponse(user));
+const getAll = async () => getRepository(UserEntity).findAndCount();
 
 /**
  * Returns User by its id
  * @param userId : string
  * @returns User
  */
-const getOneById = (userId: string) =>
-  usersRepository.find((user) => user.id === userId);
+const getOneById = async (userId: string) => {
+  return await getRepository(UserEntity)
+    .createQueryBuilder('user')
+    .leftJoinAndSelect('user.tasks', 'task')
+    .where({ id: userId })
+    .getOne();
+};
 
 /**
  * Create User with userData
  * @param userData : User
  * @returns User
  */
-const create = (userData: User) => {
+
+const create = async (userData: UserEntity) => {
   const { name, login, password } = userData;
-  const newUser = new User({ name, login, password });
-  usersRepository = [...usersRepository, newUser];
-  return User.toResponse(newUser);
+  const user = new UserEntity();
+  user.name = name;
+  user.login = login;
+  user.password = password;
+  return UserEntity.toResponse(await getRepository(UserEntity).save(user));
 };
 
 /**
@@ -36,21 +43,19 @@ const create = (userData: User) => {
  * @param updatedUserData : User
  * @returns User
  */
-const update = ({
+const update = async ({
   userId,
   updatedUserData,
 }: {
   userId: string;
-  updatedUserData: User;
+  updatedUserData: UserEntity;
 }) => {
-  const prevUser = usersRepository.find((user) => user.id === userId);
-  if (prevUser) {
-    const index = usersRepository.indexOf(prevUser);
-    const updatedPerson = { ...prevUser, ...updatedUserData };
-    usersRepository[index] = updatedPerson;
-    return updatedPerson;
-  }
-  return prevUser;
+  return await getRepository(UserEntity)
+    .createQueryBuilder()
+    .update(UserEntity)
+    .set({ ...updatedUserData })
+    .where('id = :userId', { userId })
+    .execute();
 };
 
 /**
@@ -58,18 +63,12 @@ const update = ({
  * @param userId : string
  * @returns User[]
  */
-const deleteById = (userId: string) => {
-  const user = usersRepository.find((currentUser) => currentUser.id === userId);
-  if (user) {
-    const index = usersRepository.indexOf(user);
-
-    const usersTasks: Task[] = taskService.getAllByUserId(user.id);
-
-    taskService.reassignUserTasks(usersTasks);
-
-    return usersRepository.splice(index, 1);
-  }
-  return null;
+const deleteById = async (userId: string) => {
+  return await getRepository(UserEntity)
+    .createQueryBuilder()
+    .delete()
+    .where('id = :userId', { userId })
+    .execute();
 };
 
 export default {

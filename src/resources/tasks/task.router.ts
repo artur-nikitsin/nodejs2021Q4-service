@@ -33,7 +33,7 @@ const taskRouter = (
    * @returns  Task[]
    */
   fastify.get('/boards/:boardId/tasks', async (request, reply) => {
-    const tasks = taskService.getAll();
+    const tasks = await taskService.getAll();
     reply.code(200);
     reply.send(tasks);
   });
@@ -51,7 +51,7 @@ const taskRouter = (
         reply.code(400);
         reply.send({ message: `This in not uuid: ${taskId}` });
       }
-      const task = taskService.getOneById(taskId);
+      const task = await taskService.getOneById(taskId);
       if (task) {
         reply.code(200);
         reply.send(task);
@@ -74,7 +74,7 @@ const taskRouter = (
     async (request, reply) => {
       {
         const { boardId } = request.params;
-        const newTask = taskService.create(boardId, request.body);
+        const newTask = await taskService.create(boardId, request.body);
         if (newTask) {
           reply.code(201);
           reply.send(newTask);
@@ -91,12 +91,16 @@ const taskRouter = (
   fastify.put<requestTaskGeneric>(
     '/boards/:boardId/tasks/:taskId',
     async (request, reply) => {
-      const { taskId } = request.params;
+      const { taskId, boardId } = request.params;
       if (!validate(taskId)) {
         reply.code(400);
         reply.send({ message: `This in not uuid: ${request.params.taskId}` });
       }
-      const updatedTask = taskService.updateTask(taskId, request.body);
+      const updatedTask = await taskService.updateTask(
+        taskId,
+        boardId,
+        request.body
+      );
       if (updatedTask) {
         reply.code(200);
         reply.send(updatedTask);
@@ -122,8 +126,8 @@ const taskRouter = (
         reply.code(400);
         reply.send({ message: `This in not uuid: ${request.params.taskId}` });
       }
-      const deletedTask = taskService.deleteTask(taskId);
-      if (deletedTask && deletedTask.length >= 1) {
+      const deletedTask = await taskService.deleteTask(taskId);
+      if (deletedTask) {
         reply.code(204);
       } else {
         reply.code(404);

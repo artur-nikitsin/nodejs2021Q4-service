@@ -1,12 +1,12 @@
 import usersRepository from './user.memory.repository';
-import User from './user.model';
+import { UserEntity } from './user.entity';
 
 /**
  * Returns all Users.
  * @returns  User[]
  */
-const getAll = () => {
-  return usersRepository.getAll();
+const getAll = async () => {
+  return await usersRepository.getAll();
 };
 
 /**
@@ -14,8 +14,8 @@ const getAll = () => {
  * @param userId : string
  * @returns User
  */
-const getOneById = (userId: string) => {
-  return usersRepository.getOneById(userId);
+const getOneById = async (userId: string) => {
+  return await usersRepository.getOneById(userId);
 };
 
 /**
@@ -23,8 +23,8 @@ const getOneById = (userId: string) => {
  * @param body : User
  * @returns User
  */
-const create = (body: User) => {
-  return usersRepository.create(body);
+const create = async (body: UserEntity) => {
+  return await usersRepository.create(body);
 };
 
 /**
@@ -33,8 +33,8 @@ const create = (body: User) => {
  * @param body : User
  * @returns User
  */
-const updateUser = (userId: string, body: User) => {
-  return usersRepository.update({
+const updateUser = async (userId: string, body: UserEntity) => {
+  return await usersRepository.update({
     userId,
     updatedUserData: body,
   });
@@ -45,8 +45,8 @@ const updateUser = (userId: string, body: User) => {
  * @param userId : string
  * @returns User[]
  */
-const deleteUser = (userId: string) => {
-  return usersRepository.deleteById(userId);
+const deleteUser = async (userId: string) => {
+  return await usersRepository.deleteById(userId);
 };
 
 export default { getAll, create, getOneById, updateUser, deleteUser };

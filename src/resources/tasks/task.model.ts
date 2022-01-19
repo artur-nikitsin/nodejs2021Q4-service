@@ -3,30 +3,30 @@ import { v4 } from 'uuid';
 export interface TaskInterface {
   id: string;
   title: string;
-  order: string;
+  order: number;
   description: string;
   userId: string | null;
-  boardId: string;
-  columnId: string;
+  boardId: string | null;
+  columnId: string | null;
 }
 
 export type TaskConstructorProps = {
   title: string;
-  order: string;
+  order: number;
   description: string;
   userId: string | null;
-  boardId: string;
-  columnId: string;
+  boardId: string | null;
+  columnId: string | null;
 };
 
 class Task implements TaskInterface {
   public id: string;
   public title: string;
-  public order: string;
+  public order: number;
   public description: string;
   public userId: string | null;
-  public boardId: string;
-  public columnId: string;
+  public boardId: string | null;
+  public columnId: string | null;
 
   constructor({
     title,
