@@ -91,12 +91,16 @@ const taskRouter = (
   fastify.put<requestTaskGeneric>(
     '/boards/:boardId/tasks/:taskId',
     async (request, reply) => {
-      const { taskId } = request.params;
+      const { taskId, boardId } = request.params;
       if (!validate(taskId)) {
         reply.code(400);
         reply.send({ message: `This in not uuid: ${request.params.taskId}` });
       }
-      const updatedTask = await taskService.updateTask(taskId, request.body);
+      const updatedTask = await taskService.updateTask(
+        taskId,
+        boardId,
+        request.body
+      );
       if (updatedTask) {
         reply.code(200);
         reply.send(updatedTask);

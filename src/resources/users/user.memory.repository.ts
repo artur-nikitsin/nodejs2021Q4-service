@@ -1,9 +1,7 @@
 import { getRepository } from 'typeorm';
 import { UserEntity } from './user.entity';
-// import taskService from '../tasks/task.service';
-// import Task from '../tasks/task.model';
-
-// const usersRepository: Array<User> = [];
+// import taskMemoryRepository from '../tasks/task.memory.repository';
+// import { TaskEntity } from '../tasks/task.entity';
 
 /**
  * Returns all Users.
@@ -16,8 +14,13 @@ const getAll = async () => getRepository(UserEntity).findAndCount();
  * @param userId : string
  * @returns User
  */
-const getOneById = async (userId: string) =>
-  await getRepository(UserEntity).findOne(userId);
+const getOneById = async (userId: string) => {
+  return await getRepository(UserEntity)
+    .createQueryBuilder('user')
+    .leftJoinAndSelect('user.tasks', 'task')
+    .where({ id: userId })
+    .getOne();
+};
 
 /**
  * Create User with userData

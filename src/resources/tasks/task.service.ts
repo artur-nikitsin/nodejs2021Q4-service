@@ -52,9 +52,10 @@ const create = async (boardId: string, taskBody: Task) => {
  * @param taskBody : Task
  * @returns Task
  */
-const updateTask = async (taskId: string, taskBody: Task) => {
+const updateTask = async (taskId: string, boardId: string, taskBody: Task) => {
   return await taskRepository.update({
     taskId,
+    boardId,
     updatedTaskData: taskBody,
   });
 };
@@ -76,6 +77,7 @@ const reassignUserTasks = async (usersTasks: Task[]) => {
   usersTasks.forEach((task) =>
     taskRepository.update({
       taskId: task.id,
+      boardId: '123',
       updatedTaskData: { ...task, userId: null },
     })
   );

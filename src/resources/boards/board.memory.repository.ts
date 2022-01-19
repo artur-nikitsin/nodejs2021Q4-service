@@ -4,8 +4,6 @@ import { BoardEntity } from './board.entity';
 import columnRepositiry from '../columns/column. repositiry';
 import { ColumnEntity } from '../columns/column.entity';
 
-// let boardRepository: Board[] = [];
-
 /**
  * Returns all Boards.
  * @returns  Board[]
@@ -92,7 +90,11 @@ const update = async ({
  * @returns Board[]
  */
 const deleteById = async (boardId: string) => {
-  return await getRepository(BoardEntity).delete(boardId);
+  return await getRepository(BoardEntity)
+    .createQueryBuilder()
+    .delete()
+    .where('id = :boardId', { boardId })
+    .execute();
 };
 
 export default {

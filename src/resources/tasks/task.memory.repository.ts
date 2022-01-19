@@ -1,7 +1,8 @@
 import Task from './task.model';
 import { getRepository } from 'typeorm';
-import { UserEntity } from '../users/user.entity';
 import { TaskEntity } from './task.entity';
+import boardMemoryRepository from '../boards/board.memory.repository';
+import userMemoryRepository from '../users/user.memory.repository';
 import columnRepositiry from '../columns/column. repositiry';
 
 const taskRepository: Task[] = [];
@@ -10,7 +11,10 @@ const taskRepository: Task[] = [];
  * Returns all Tasks.
  * @returns  Task
  */
-const getAll = async () => await getRepository(TaskEntity).findAndCount();
+const getAll = async () =>
+  await getRepository(TaskEntity).find({
+    relations: ['userId', 'columnId', 'boardId'],
+  });
 
 /**
  * Returns Task by its id
@@ -20,7 +24,7 @@ const getAll = async () => await getRepository(TaskEntity).findAndCount();
 const getOneById = async (taskId: string) =>
   await getRepository(TaskEntity).findOne({
     where: { id: taskId },
-    relations: ['columnId', 'userId'],
+    relations: ['columnId', 'userId', 'boardId'],
   });
 
 /**
@@ -28,8 +32,12 @@ const getOneById = async (taskId: string) =>
  * @param userId : string
  * @returns Task[]
  */
-const getAllByUserId = async (userId: string) =>
-  await taskRepository.filter((task: Task) => task.userId === userId);
+const getAllByUserId = async (userId: string) => {
+  return await getRepository(TaskEntity).find({
+    where: { userId: userId },
+    relations: ['columnId', 'userId', 'boardId'],
+  });
+};
 
 /**
  * Returns Task by its boardId
@@ -53,19 +61,33 @@ const create = async ({
   boardId: string;
 }) => {
   const { title, order, description, userId, columnId } = taskData;
+
   const newTask = new TaskEntity();
   newTask.title = title;
   newTask.order = order;
   newTask.description = description;
-
-  const column = await columnRepositiry.getOneById(columnId);
-  if (!column) {
-    throw Error(`Column with id: ${columnId} not found`);
-  }
-  newTask.columnId = column;
   if (userId) {
-    newTask.userId = await getRepository(UserEntity).findOne(userId);
+    newTask.userId = await userMemoryRepository.getOneById(userId);
+  } else {
+    newTask.userId = undefined;
   }
+  if (columnId) {
+    const column = await columnRepositiry.getOneById(columnId);
+    if (column) {
+      newTask.columnId = column;
+    }
+  } else {
+    newTask.userId = undefined;
+  }
+  if (boardId) {
+    const board = await boardMemoryRepository.getOneById(boardId);
+    if (board) {
+      newTask.boardId = board;
+    }
+  } else {
+    newTask.boardId = null;
+  }
+
   return await getRepository(TaskEntity).save(newTask);
 };
 
@@ -77,22 +99,42 @@ const create = async ({
  */
 const update = async ({
   taskId,
+  boardId,
   updatedTaskData,
 }: {
   taskId: string;
+  boardId: string;
   updatedTaskData: Task;
 }) => {
-  const { userId } = updatedTaskData;
+  const { title, order, description, userId, columnId } = updatedTaskData;
   const prevTask = await getOneById(taskId);
-
-  let user = undefined;
-  if (userId) {
-    user = await getRepository(UserEntity).findOne(userId);
+  if (prevTask) {
+    prevTask.title = title;
+    prevTask.order = order;
+    prevTask.description = description;
+    if (userId) {
+      prevTask.userId = await userMemoryRepository.getOneById(userId);
+    } else {
+      prevTask.userId = undefined;
+    }
+    if (columnId) {
+      const column = await columnRepositiry.getOneById(columnId);
+      if (column) {
+        prevTask.columnId = column;
+      }
+    } else {
+      prevTask.userId = undefined;
+    }
+    if (boardId) {
+      const board = await boardMemoryRepository.getOneById(boardId);
+      if (board) {
+        prevTask.boardId = board;
+      }
+    } else {
+      prevTask.boardId = null;
+    }
+    return await getRepository(TaskEntity).save(prevTask);
   }
-
-  const updatedTask = { ...prevTask, userId: user };
-
-  return await getRepository(TaskEntity).save(updatedTask);
 };
 
 /**

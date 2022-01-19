@@ -19,7 +19,9 @@ export class ColumnEntity {
   @Column()
   order: number;
 
-  @ManyToOne(() => BoardEntity, (board) => board.columns)
+  @ManyToOne(() => BoardEntity, (board) => board.columns, {
+    onDelete: 'CASCADE',
+  })
   boardId: BoardEntity;
 
   @OneToMany(() => TaskEntity, (task) => task.columnId)
