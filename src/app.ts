@@ -12,6 +12,7 @@ import { UserEntity } from './resources/users/user.entity';
 import { TaskEntity } from './resources/tasks/task.entity';
 import { BoardEntity } from './resources/boards/board.entity';
 import { ColumnEntity } from './resources/columns/column.entity';
+
 dotenv.config();
 
 const app: FastifyInstance = fastify<
