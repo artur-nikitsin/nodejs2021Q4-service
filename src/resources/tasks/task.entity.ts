@@ -3,12 +3,10 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { UserEntity } from '../users/user.entity';
 import { BoardEntity } from '../boards/board.entity';
-import Board from '../boards/board.model';
 import { ColumnEntity } from '../columns/column.entity';
 
 @Entity()
@@ -25,15 +23,27 @@ export class TaskEntity {
   @Column()
   description: string;
 
-  @OneToOne(() => UserEntity)
-  @JoinColumn()
-  userId: UserEntity | undefined;
+  @Column({ nullable: true })
+  userId: string | null;
 
-  @ManyToOne(() => BoardEntity, (board) => board.tasks)
-  @JoinColumn()
-  boardId: Board | null;
+  @Column({ nullable: true })
+  boardId: string | null;
 
-  @ManyToOne(() => ColumnEntity, (column) => column.tasks)
+  @Column({ nullable: true })
+  columnId: string | null;
+
+  @ManyToOne(() => UserEntity, (user) => user.tasks, { onDelete: 'SET NULL' })
   @JoinColumn()
-  columnId: ColumnEntity | null;
+  user: UserEntity | undefined;
+
+  @ManyToOne(() => BoardEntity, (board) => board.tasks, { onDelete: 'CASCADE' })
+  @JoinColumn()
+  board: BoardEntity | null;
+
+  @ManyToOne(() => ColumnEntity, (column) => column.tasks, {
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
+  @JoinColumn()
+  column: ColumnEntity | null;
 }

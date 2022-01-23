@@ -23,10 +23,7 @@ export class BoardEntity {
   @JoinColumn()
   columns: ColumnEntity[];
 
-  @OneToMany(() => TaskEntity, (task) => task.boardId, {
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
+  @OneToMany(() => TaskEntity, (task) => task.board, { cascade: true })
   @JoinColumn()
   tasks: TaskEntity[];
 }

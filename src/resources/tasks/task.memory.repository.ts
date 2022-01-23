@@ -13,7 +13,7 @@ const taskRepository: Task[] = [];
  */
 const getAll = async () =>
   await getRepository(TaskEntity).find({
-    relations: ['userId', 'columnId', 'boardId'],
+    relations: ['column'],
   });
 
 /**
@@ -24,7 +24,7 @@ const getAll = async () =>
 const getOneById = async (taskId: string) =>
   await getRepository(TaskEntity).findOne({
     where: { id: taskId },
-    relations: ['columnId', 'userId', 'boardId'],
+    relations: ['column'],
   });
 
 /**
@@ -35,7 +35,7 @@ const getOneById = async (taskId: string) =>
 const getAllByUserId = async (userId: string) => {
   return await getRepository(TaskEntity).find({
     where: { userId: userId },
-    relations: ['columnId', 'userId', 'boardId'],
+    relations: ['column', 'user', 'board'],
   });
 };
 
@@ -66,29 +66,33 @@ const create = async ({
   newTask.title = title;
   newTask.order = order;
   newTask.description = description;
+  newTask.boardId = boardId;
+  newTask.columnId = columnId;
+  newTask.userId = userId;
   if (userId) {
-    newTask.userId = await userMemoryRepository.getOneById(userId);
+    newTask.user = await userMemoryRepository.getOneById(userId);
   } else {
-    newTask.userId = undefined;
+    newTask.user = undefined;
   }
   if (columnId) {
     const column = await columnRepositiry.getOneById(columnId);
     if (column) {
-      newTask.columnId = column;
+      newTask.column = column;
     }
   } else {
-    newTask.userId = undefined;
+    newTask.column = null;
   }
   if (boardId) {
     const board = await boardMemoryRepository.getOneById(boardId);
     if (board) {
-      newTask.boardId = board;
+      newTask.board = board;
     }
   } else {
     newTask.boardId = null;
   }
 
-  return await getRepository(TaskEntity).save(newTask);
+  const { id } = await getRepository(TaskEntity).save(newTask);
+  return await getOneById(id);
 };
 
 /**
@@ -112,23 +116,26 @@ const update = async ({
     prevTask.title = title;
     prevTask.order = order;
     prevTask.description = description;
+    prevTask.boardId = boardId;
+    prevTask.columnId = columnId;
+    prevTask.userId = userId;
     if (userId) {
-      prevTask.userId = await userMemoryRepository.getOneById(userId);
+      prevTask.user = await userMemoryRepository.getOneById(userId);
     } else {
-      prevTask.userId = undefined;
+      prevTask.user = undefined;
     }
     if (columnId) {
       const column = await columnRepositiry.getOneById(columnId);
       if (column) {
-        prevTask.columnId = column;
+        prevTask.column = column;
       }
     } else {
-      prevTask.userId = undefined;
+      prevTask.userId = null;
     }
     if (boardId) {
       const board = await boardMemoryRepository.getOneById(boardId);
       if (board) {
-        prevTask.boardId = board;
+        prevTask.board = board;
       }
     } else {
       prevTask.boardId = null;

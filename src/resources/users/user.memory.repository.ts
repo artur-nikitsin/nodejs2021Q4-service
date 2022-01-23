@@ -6,7 +6,7 @@ import { encryptPassword } from '../../auth/utils/cryptUtils';
  * Returns all Users.
  * @returns  User[]
  */
-const getAll = async () => getRepository(UserEntity).findAndCount();
+const getAll = async () => getRepository(UserEntity).find();
 
 /**
  * Returns User by its id
