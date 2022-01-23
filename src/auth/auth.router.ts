@@ -5,7 +5,7 @@ import {
   FastifyRequest,
 } from 'fastify';
 import app from '../app';
-import { getSignToken } from './auth.service';
+import { getToken } from './auth.service';
 
 export type CredentialsType = {
   login: string;
@@ -19,7 +19,7 @@ export function loginRoute(
 ) {
   server.post('/login', async (req: FastifyRequest, reply: FastifyReply) => {
     const { login, password }: CredentialsType = req.body as CredentialsType;
-    const token = await getSignToken(login, password);
+    const token = await getToken(login, password);
     if (!token) {
       reply.code(403).send('Forbidden login request');
       app.log.warn('Forbidden login request');

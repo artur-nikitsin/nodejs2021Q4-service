@@ -5,42 +5,42 @@ import {
   FastifyInstance,
 } from 'fastify';
 import jwt from 'jsonwebtoken';
+
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+const allowedRoutes = ['/login', '/doc', '/', '/favicon.ico'];
 
-function sendUnauthorized(reply: FastifyReply, server: FastifyInstance) {
+const returnUnauthorized = (reply: FastifyReply, app: FastifyInstance) => {
   reply.status(401).send('Unauthorized');
-  server.log.warn('Unauthorized');
-}
+  app.log.warn('Unauthorized');
+};
 
-export function authInterceptor(server: FastifyInstance) {
-  server.addHook(
+export const authInterceptor = (app: FastifyInstance) => {
+  app.addHook(
     'preHandler',
     (
       req: FastifyRequest,
       reply: FastifyReply,
       done: HookHandlerDoneFunction
     ) => {
-      const allowedUrls = ['/login', '/doc', '/', '/favicon.ico'];
-      if (!allowedUrls.includes(req.url)) {
+      const { url } = req;
+      if (!allowedRoutes.includes(url)) {
         const { authorization } = req.headers;
-
-        if (authorization !== undefined) {
+        if (authorization) {
           const [type, token] = authorization.split(' ');
-
           if (type !== 'Bearer') {
-            sendUnauthorized(reply, server);
+            returnUnauthorized(reply, app);
           } else {
             try {
               jwt.verify(token, JWT_SECRET_KEY as string);
             } catch {
-              sendUnauthorized(reply, server);
+              returnUnauthorized(reply, app);
             }
           }
         } else {
-          sendUnauthorized(reply, server);
+          returnUnauthorized(reply, app);
         }
       }
       done();
     }
   );
-}
+};
