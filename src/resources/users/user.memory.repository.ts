@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
 import { UserEntity } from './user.entity';
-import { hashPassword } from '../../auth/utils/hashHandler';
+import { encryptPassword } from '../../auth/utils/cryptUtils';
 
 /**
  * Returns all Users.
@@ -41,11 +41,11 @@ const getUserByLogin = async (login: string) => {
 
 const create = async (userData: UserEntity) => {
   const { name, login, password } = userData;
-  const hashedPassword = await hashPassword(password);
+  const encryptedPassword = await encryptPassword(password);
   const user = new UserEntity();
   user.name = name;
   user.login = login;
-  user.password = hashedPassword;
+  user.password = encryptedPassword;
   return UserEntity.toResponse(await getRepository(UserEntity).save(user));
 };
 
