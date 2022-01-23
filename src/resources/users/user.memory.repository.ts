@@ -1,5 +1,7 @@
 import { getRepository } from 'typeorm';
 import { UserEntity } from './user.entity';
+import { CredentialsType } from '../../auth/login.controller';
+import { hashCreate } from '../../auth/utils/hashHandler';
 // import taskMemoryRepository from '../tasks/task.memory.repository';
 // import { TaskEntity } from '../tasks/task.entity';
 
@@ -23,6 +25,18 @@ const getOneById = async (userId: string) => {
 };
 
 /**
+ * Returns User by its login
+ * @param login : string
+ * @returns User
+ */
+const getUserByLogin = async (login: CredentialsType['login']) => {
+  return await getRepository(UserEntity)
+    .createQueryBuilder('user')
+    .where('user.login = :login', { login })
+    .getOne();
+};
+
+/**
  * Create User with userData
  * @param userData : User
  * @returns User
@@ -30,10 +44,11 @@ const getOneById = async (userId: string) => {
 
 const create = async (userData: UserEntity) => {
   const { name, login, password } = userData;
+  const hashPassword = await hashCreate(password);
   const user = new UserEntity();
   user.name = name;
   user.login = login;
-  user.password = password;
+  user.password = hashPassword;
   return UserEntity.toResponse(await getRepository(UserEntity).save(user));
 };
 
@@ -77,4 +92,5 @@ export default {
   create,
   update,
   deleteById,
+  getUserByLogin,
 };
