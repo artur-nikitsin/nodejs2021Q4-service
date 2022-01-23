@@ -15,7 +15,7 @@ import { BoardEntity } from './resources/boards/board.entity';
 import { ColumnEntity } from './resources/columns/column.entity';
 import { authInterceptor } from './auth/authInterceptor';
 import userMemoryRepository from './resources/users/user.memory.repository';
-import { loginRoute } from './auth/auth.router';
+import { loginRoute } from './auth/auth.controller';
 
 dotenv.config();
 

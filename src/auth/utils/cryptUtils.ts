@@ -1,5 +1,5 @@
 import app from '../../app';
-import { CredentialsType } from '../auth.router';
+import { CredentialsType } from '../auth.controller';
 
 export const encryptPassword = async (
   password: CredentialsType['password']
