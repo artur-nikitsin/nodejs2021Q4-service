@@ -13,9 +13,9 @@ import { UserEntity } from './resources/users/user.entity';
 import { TaskEntity } from './resources/tasks/task.entity';
 import { BoardEntity } from './resources/boards/board.entity';
 import { ColumnEntity } from './resources/columns/column.entity';
-import { verifyToken } from './auth/checkToken';
+import { authInterceptor } from './auth/authInterceptor';
 import userMemoryRepository from './resources/users/user.memory.repository';
-import { loginRoute } from './auth/login.router';
+import { loginRoute } from './auth/auth.router';
 
 dotenv.config();
 
@@ -72,7 +72,7 @@ app.register(fastifyBcrypt, {
   saltWorkFactor: 12,
 });
 
-verifyToken(app);
+authInterceptor(app);
 
 app.addHook('preHandler', function (req, reply, done) {
   if (req.body) {

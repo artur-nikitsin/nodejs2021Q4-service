@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
 import userMemoryRepository from '../resources/users/user.memory.repository';
 import { hashCheck } from './utils/hashHandler';
-import { CredentialsType } from './login.controller';
+
 import { UserEntity } from '../resources/users/user.entity';
+import { CredentialsType } from './auth.router';
 
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 

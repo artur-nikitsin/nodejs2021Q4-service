@@ -1,7 +1,7 @@
-import { CredentialsType } from '../login.controller';
 import app from '../../app';
+import { CredentialsType } from '../auth.router';
 
-export const hashCreate = async (password: CredentialsType['password']) => {
+export const hashPassword = async (password: CredentialsType['password']) => {
   return await app.bcrypt.hash(password);
 };
 

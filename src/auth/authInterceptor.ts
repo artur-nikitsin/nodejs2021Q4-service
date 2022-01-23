@@ -12,7 +12,7 @@ function sendUnauthorized(reply: FastifyReply, server: FastifyInstance) {
   server.log.warn('Unauthorized');
 }
 
-export function verifyToken(server: FastifyInstance) {
+export function authInterceptor(server: FastifyInstance) {
   server.addHook(
     'preHandler',
     (
@@ -21,7 +21,7 @@ export function verifyToken(server: FastifyInstance) {
       done: HookHandlerDoneFunction
     ) => {
       const allowedUrls = ['/login', '/doc', '/', '/favicon.ico'];
-      if (!allowedUrls.includes(req.url) && req.url.split('/')[1] !== 'doc') {
+      if (!allowedUrls.includes(req.url)) {
         const { authorization } = req.headers;
 
         if (authorization !== undefined) {
