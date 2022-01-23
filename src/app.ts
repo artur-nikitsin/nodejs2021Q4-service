@@ -1,5 +1,6 @@
 import fastify, { FastifyInstance } from 'fastify';
 import dotenv from 'dotenv';
+import fastifyBcrypt from 'fastify-bcrypt';
 import userRouter from './resources/users/user.router';
 import taskRouter from './resources/tasks/task.router';
 import boardRouter from './resources/boards/board.router';
@@ -12,6 +13,10 @@ import { UserEntity } from './resources/users/user.entity';
 import { TaskEntity } from './resources/tasks/task.entity';
 import { BoardEntity } from './resources/boards/board.entity';
 import { ColumnEntity } from './resources/columns/column.entity';
+import { authInterceptor } from './auth/authInterceptor';
+import userMemoryRepository from './resources/users/user.memory.repository';
+import { loginRoute } from './auth/auth.controller';
+
 dotenv.config();
 
 const app: FastifyInstance = fastify<
@@ -30,23 +35,44 @@ const POSTGRES_USER = process.env.POSTGRES_USER;
 const POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD;
 const POSTGRES_DB = process.env.POSTGRES_DB;
 
-export const connection = createConnection({
-  type: 'postgres',
-  host: 'host.docker.internal',
-  port: POSTGRES_PORT,
-  username: POSTGRES_USER,
-  password: POSTGRES_PASSWORD,
-  database: POSTGRES_DB,
-  entities: [UserEntity, TaskEntity, BoardEntity, ColumnEntity],
-  synchronize: true,
-});
+const createPGConnection = async () => {
+  const connection = await createConnection({
+    type: 'postgres',
+    host: 'host.docker.internal',
+    port: POSTGRES_PORT,
+    username: POSTGRES_USER,
+    password: POSTGRES_PASSWORD,
+    database: POSTGRES_DB,
+    entities: [UserEntity, TaskEntity, BoardEntity, ColumnEntity],
+    synchronize: true,
+  });
+
+  const admin = await userMemoryRepository.getUserByLogin('admin');
+  if (!admin) {
+    await userMemoryRepository.create({
+      name: 'admin',
+      login: 'admin',
+      password: 'admin',
+    } as UserEntity);
+    app.log.info('Admin added to DB');
+  }
+  return connection;
+};
+
+const connection = createPGConnection();
 
 app.register(userRouter);
 app.register(taskRouter);
 app.register(boardRouter);
+app.register(loginRoute);
 app.register(fastifyTypeorm, {
   connection,
 });
+app.register(fastifyBcrypt, {
+  saltWorkFactor: 12,
+});
+
+authInterceptor(app);
 
 app.addHook('preHandler', function (req, reply, done) {
   if (req.body) {

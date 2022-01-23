@@ -44,14 +44,21 @@
       "npm run lint"
     ]
   },
+  "resolutions": {
+    "formidable": "2.0.1"
+  },
   "dependencies": {
     "@microsoft/tsdoc": "^0.13.2",
+    "@types/jsonwebtoken": "^8.5.8",
     "@types/uuid": "^8.3.3",
     "cross-env": "7.0.3",
     "dotenv": "10.0.0",
     "express": "4.17.1",
     "fastify": "^3.24.1",
+    "fastify-auth": "^1.1.0",
+    "fastify-bcrypt": "^1.0.0",
     "fastify-typeorm": "^2.1.2",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1",
     "pino": "^7.6.1",
     "pino-pretty": "^7.3.0",

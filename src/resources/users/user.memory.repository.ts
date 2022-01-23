@@ -1,13 +1,12 @@
 import { getRepository } from 'typeorm';
 import { UserEntity } from './user.entity';
-// import taskMemoryRepository from '../tasks/task.memory.repository';
-// import { TaskEntity } from '../tasks/task.entity';
+import { encryptPassword } from '../../auth/utils/cryptUtils';
 
 /**
  * Returns all Users.
  * @returns  User[]
  */
-const getAll = async () => getRepository(UserEntity).findAndCount();
+const getAll = async () => getRepository(UserEntity).find();
 
 /**
  * Returns User by its id
@@ -23,6 +22,18 @@ const getOneById = async (userId: string) => {
 };
 
 /**
+ * Returns User by its login
+ * @param login : string
+ * @returns User
+ */
+const getUserByLogin = async (login: string) => {
+  return await getRepository(UserEntity)
+    .createQueryBuilder('user')
+    .where('user.login = :login', { login })
+    .getOne();
+};
+
+/**
  * Create User with userData
  * @param userData : User
  * @returns User
@@ -30,10 +41,11 @@ const getOneById = async (userId: string) => {
 
 const create = async (userData: UserEntity) => {
   const { name, login, password } = userData;
+  const encryptedPassword = await encryptPassword(password);
   const user = new UserEntity();
   user.name = name;
   user.login = login;
-  user.password = password;
+  user.password = encryptedPassword;
   return UserEntity.toResponse(await getRepository(UserEntity).save(user));
 };
 
@@ -77,4 +89,5 @@ export default {
   create,
   update,
   deleteById,
+  getUserByLogin,
 };

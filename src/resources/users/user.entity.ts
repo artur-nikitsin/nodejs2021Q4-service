@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { TaskEntity } from '../tasks/task.entity';
 
 @Entity()
@@ -21,8 +15,7 @@ export class UserEntity {
   @Column()
   password: string;
 
-  @OneToMany(() => TaskEntity, (task) => task.userId, { cascade: true })
-  @JoinTable()
+  @OneToMany(() => TaskEntity, (task) => task.user, { cascade: true })
   tasks: TaskEntity[];
 
   static toResponse(user: UserEntity) {
