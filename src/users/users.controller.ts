@@ -4,7 +4,7 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
+  Put,
   Post,
   Query,
 } from '@nestjs/common';
@@ -29,21 +29,24 @@ export class UsersController {
     return this.usersService.getAllUsers();
   }
 
-  @Get('/getbyid/:id')
+  @Get('/users/:userId')
   @Auth()
-  getUserById(@Param('id') id: string) {
-    return this.usersService.getUserById(id);
+  getUserById(@Param('userId') userId: string) {
+    return this.usersService.getUserById(userId);
   }
 
-  @Patch('update/:id')
+  @Put('/users/:userId')
   @Auth()
-  updateUser(@Body() updateUserDto: UpdateUserDto, @Param('id') id: string) {
-    return this.usersService.updateUser(updateUserDto, id);
+  updateUser(
+    @Body() updateUserDto: UpdateUserDto,
+    @Param('userId') userId: string
+  ) {
+    return this.usersService.updateUser(updateUserDto, userId);
   }
 
-  @Delete('/delete-inactive-user/:id')
+  @Delete('/users/:userId')
   @Auth()
-  deleteInactiveUser(@Param('id') userId: string) {
+  deleteInactiveUser(@Param('userId') userId: string) {
     return this.usersService.deleteUserById(userId);
   }
 }
