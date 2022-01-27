@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
 import { UserEntity } from './user.entity';
-import { encryptPassword } from '../../auth/utils/cryptUtils';
+import { encryptPassword } from '../../auth.old/utils/cryptUtils';
 
 /**
  * Returns all Users.

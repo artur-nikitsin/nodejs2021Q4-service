@@ -1,32 +1,29 @@
 import {
-  FastifyInstance,
-  FastifyPluginOptions,
-  FastifyReply,
-  FastifyRequest,
-} from 'fastify';
-import app from '../app';
-import { getToken } from './auth.service';
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { RefreshJwtAuthGuard } from './guards/refresh-jwt-auth.guard';
 
-export type CredentialsType = {
-  login: string;
-  password: string;
-};
+@Controller('auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
 
-export function loginRoute(
-  server: FastifyInstance,
-  _: FastifyPluginOptions,
-  done: CallableFunction
-) {
-  server.post('/login', async (req: FastifyRequest, reply: FastifyReply) => {
-    const { login, password }: CredentialsType = req.body as CredentialsType;
-    const token = await getToken(login, password);
-    if (!token) {
-      reply.code(403).send('Forbidden login request');
-      app.log.warn('Forbidden login request');
-    } else {
-      reply.send({ token });
-      app.log.info('Sign token');
-    }
-  });
-  done();
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(LocalAuthGuard)
+  @Post('login')
+  async login(@Request() req) {
+    return this.authService.login(req.user);
+  }
+
+  @UseGuards(RefreshJwtAuthGuard)
+  @Post('refresh-token')
+  async refreshToken(@Request() req) {
+    return this.authService.login(req.user);
+  }
 }

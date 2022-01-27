@@ -1,27 +1,56 @@
-import jwt from 'jsonwebtoken';
-import userMemoryRepository from '../resources/users/user.memory.repository';
-import { decryptPassword } from './utils/cryptUtils';
-import { UserEntity } from '../resources/users/user.entity';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { UsersService } from '../users/users.service';
+import * as bcrypt from 'bcrypt';
+import { environment } from '../../environment';
 
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+@Injectable()
+export class AuthService {
+  constructor(
+    private userService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
-export const getToken = async (userLogin: string, password: string) => {
-  try {
-    const user: UserEntity | undefined =
-      await userMemoryRepository.getUserByLogin(userLogin);
-    if (!user) {
-      throw new Error(`User with login ${userLogin} not found`);
+  async validateUser(email: string, password: string): Promise<any> {
+    try {
+      const user = await this.userService.getUserWithRolesAndPassword(email);
+      if (user === undefined) {
+        throw new HttpException(
+          'ItemsSearchAndPagination not found',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+      if (!user.isActive) {
+        return null;
+      }
+      const comparedPassword = await bcrypt.compareSync(
+        password,
+        user.password,
+      );
+
+      if (comparedPassword) {
+        return user;
+      }
+      return null;
+    } catch (e) {
+      throw new HttpException(e.message, HttpStatus.CONFLICT);
     }
-    const { password: cryptPassword } = user;
-    const isPasswordCorrect = await decryptPassword(password, cryptPassword);
-    if (isPasswordCorrect) {
-      const { id, login } = user;
-      return jwt.sign({ id, login }, JWT_SECRET_KEY as string, {
-        expiresIn: '20m',
-      });
-    }
-    throw new Error(`Incorrect password for user with login ${userLogin}`);
-  } catch (error) {
-    return error;
   }
-};
+
+  async login(user: any) {
+    const payload = {
+      email: user.email,
+      sub: user.id,
+      roles: user.roles.map((role) => role.role),
+    };
+    return {
+      access_token: this.jwtService.sign(payload),
+      refresh_token: this.jwtService.sign(
+        { token: 'refresh' },
+        { expiresIn: '30d', secret: environment.refreshSecretKey },
+      ),
+      email: user.email,
+      roles: payload.roles,
+    };
+  }
+}

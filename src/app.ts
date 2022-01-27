@@ -13,9 +13,9 @@ import { UserEntity } from './resources/users/user.entity';
 import { TaskEntity } from './resources/tasks/task.entity';
 import { BoardEntity } from './resources/boards/board.entity';
 import { ColumnEntity } from './resources/columns/column.entity';
-import { authInterceptor } from './auth/authInterceptor';
+import { authInterceptor } from './auth.old/authInterceptor';
 import userMemoryRepository from './resources/users/user.memory.repository';
-import { loginRoute } from './auth/auth.controller';
+import { loginRoute } from './auth.old/auth.controller';
 
 dotenv.config();
 
