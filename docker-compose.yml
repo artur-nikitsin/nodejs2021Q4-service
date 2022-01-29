@@ -13,6 +13,7 @@ services:
     volumes:
       - logs:/app/logs
       - ./src:/app/src
+      - files:/app/files
     networks:
       - rss-network
     depends_on:
@@ -35,6 +36,7 @@ services:
 volumes:
   logs:
   postgres-db:
+  files:
 networks:
   rss-network:
     name: rss-network

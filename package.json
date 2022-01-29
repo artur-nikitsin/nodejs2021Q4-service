@@ -72,6 +72,7 @@
     "fastify-bcrypt": "^1.0.0",
     "fastify-typeorm": "^2.1.2",
     "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.4",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pg": "^8.7.1",
@@ -83,6 +84,7 @@
     "yamljs": "0.3.0"
   },
   "devDependencies": {
+    "@types/multer": "^1.4.7",
     "@types/node": "^16.11.12",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
