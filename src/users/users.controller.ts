@@ -10,8 +10,9 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { Auth } from '../auth/auth.decorator';
 import { UpdateUserDto } from './dto/update-user.dto';
+
+import { Auth } from '../auth/auth.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -29,13 +30,13 @@ export class UsersController {
     return this.usersService.getAllUsers();
   }
 
-  @Get('/users/:userId')
+  @Get('/:userId')
   @Auth()
   getUserById(@Param('userId') userId: string) {
     return this.usersService.getUserById(userId);
   }
 
-  @Put('/users/:userId')
+  @Put('/:userId')
   @Auth()
   updateUser(
     @Body() updateUserDto: UpdateUserDto,
@@ -44,7 +45,7 @@ export class UsersController {
     return this.usersService.updateUser(updateUserDto, userId);
   }
 
-  @Delete('/users/:userId')
+  @Delete('/:userId')
   @Auth()
   deleteInactiveUser(@Param('userId') userId: string) {
     return this.usersService.deleteUserById(userId);

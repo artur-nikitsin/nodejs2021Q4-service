@@ -7,23 +7,25 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './guards/local-auth.guard';
+// import { LocalAuthGuard } from './guards/local-auth.guard';
 import { RefreshJwtAuthGuard } from './guards/refresh-jwt-auth.guard';
 
-@Controller('auth')
+@Controller('/login')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
-  @UseGuards(LocalAuthGuard)
-  @Post('login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
+  // @UseGuards(LocalAuthGuard)
+  @Post()
+  async login(@Request() req: { login: string; password: string }) {
+    const { login, password } = req;
+    return this.authService.login(login, password);
   }
 
   @UseGuards(RefreshJwtAuthGuard)
   @Post('refresh-token')
-  async refreshToken(@Request() req) {
-    return this.authService.login(req.user);
+  async refreshToken(@Request() req: { login: string; password: string }) {
+    const { login, password } = req;
+    return this.authService.login(login, password);
   }
 }

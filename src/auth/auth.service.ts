@@ -1,32 +1,28 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
-import * as bcrypt from 'bcrypt';
-import { environment } from '../../environment';
+import * as bcryptjs from 'bcryptjs';
+import { tokenConfig } from './config';
+import User from '../resources/users/user.model';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UsersService,
-    private jwtService: JwtService,
+    private jwtService: JwtService
   ) {}
 
-  async validateUser(email: string, password: string): Promise<any> {
+  async validateUser(login: string, password: string): Promise<User | null> {
     try {
-      const user = await this.userService.getUserWithRolesAndPassword(email);
-      if (user === undefined) {
+      const user = await this.userService.getUserByLogin(login);
+      if (!user) {
         throw new HttpException(
           'ItemsSearchAndPagination not found',
-          HttpStatus.NOT_FOUND,
+          HttpStatus.NOT_FOUND
         );
       }
-      if (!user.isActive) {
-        return null;
-      }
-      const comparedPassword = await bcrypt.compareSync(
-        password,
-        user.password,
-      );
+
+      const comparedPassword = bcryptjs.compareSync(password, user.password);
 
       if (comparedPassword) {
         return user;
@@ -37,20 +33,18 @@ export class AuthService {
     }
   }
 
-  async login(user: any) {
+  async login(login: string, password: string) {
     const payload = {
-      email: user.email,
-      sub: user.id,
-      roles: user.roles.map((role) => role.role),
+      login,
+      password,
     };
     return {
-      access_token: this.jwtService.sign(payload),
+      token: this.jwtService.sign(payload),
       refresh_token: this.jwtService.sign(
         { token: 'refresh' },
-        { expiresIn: '30d', secret: environment.refreshSecretKey },
+        { expiresIn: '30d', secret: tokenConfig.refreshSecretKey }
       ),
-      email: user.email,
-      roles: payload.roles,
+      login: login,
     };
   }
 }
