@@ -1,4 +1,6 @@
 import { IsNotEmpty, IsString, IsArray } from 'class-validator';
+import Column from '../../resources/columns/column.model';
+import Task from '../../resources/tasks/task.model';
 
 export class CreateBoardDto {
   @IsString()
@@ -7,9 +9,9 @@ export class CreateBoardDto {
 
   @IsString()
   @IsArray()
-  columns: string[];
+  columns: Column[];
 
   @IsString()
   @IsArray()
-  tasks: string[];
+  tasks: Task[];
 }

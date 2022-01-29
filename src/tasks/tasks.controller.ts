@@ -13,38 +13,42 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { Auth } from '../auth/auth.decorator';
 
-@Controller('/boards/:boardId/')
+@Controller('/boards')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
-  @Post('/tasks')
+  @Post('/:boardId/tasks')
   @Auth()
-  create(@Body() createTAskDto: CreateTaskDto) {
-    return this.tasksService.create(createTAskDto);
+  create(
+    @Body() createTAskDto: CreateTaskDto,
+    @Param('boardId') boardId: string
+  ) {
+    return this.tasksService.create(createTAskDto, boardId);
   }
 
-  @Get('/tasks')
+  @Get('/:boardId/tasks')
   @Auth()
   getAllTasks(@Query() query: string) {
     return this.tasksService.getAllTasks();
   }
 
-  @Get('/tasks/:taskId')
+  @Get('/:boardId/tasks/:taskId')
   @Auth()
-  getTAskById(@Param('userId') userId: string) {
-    return this.tasksService.getTAskById(userId);
+  getTAskById(@Param('taskId') taskId: string) {
+    return this.tasksService.getTaskById(taskId);
   }
 
-  @Put('/tasks/:taskId')
+  @Put('/:boardId/tasks/:taskId')
   @Auth()
   updateTask(
     @Body() updateTaskDto: UpdateTaskDto,
+    @Param('boardId') boardId: string,
     @Param('taskId') taskId: string
   ) {
-    return this.tasksService.updateTask(updateTaskDto, taskId);
+    return this.tasksService.updateTask(updateTaskDto, taskId, boardId);
   }
 
-  @Delete('/tasks/:taskId')
+  @Delete('/:boardId/tasks/:taskId')
   @Auth()
   deleteTaskById(@Param('taskId') taskId: string) {
     return this.tasksService.deleteTaskById(taskId);
