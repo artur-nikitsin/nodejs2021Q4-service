@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from '../resources/users/user.entity';
@@ -26,7 +26,7 @@ export class UsersService {
   async getUserById(id: string): Promise<UserEntity> {
     try {
       return await this.usersRepository.findOneOrFail(id, {
-        relations: ['manager', 'roles', 'groups'],
+        relations: [],
       });
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.NOT_FOUND);
@@ -34,7 +34,7 @@ export class UsersService {
   }
 
   async getUserByLogin(login: string) {
-    return await getRepository(UserEntity)
+    return await this.usersRepository
       .createQueryBuilder('user')
       .where('user.login = :login', { login })
       .getOne();
@@ -67,7 +67,6 @@ export class UsersService {
   }
 
   async deleteUserById(userId: string) {
-    console.log('@@@@@@@', userId);
     return await this.usersRepository
       .delete(userId)
       .then(async (deletedResult) => {
