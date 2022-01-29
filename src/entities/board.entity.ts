@@ -21,7 +21,7 @@ export class BoardEntity {
     onDelete: 'CASCADE',
   })
   @JoinColumn()
-  columns: ColumnEntity[];
+  columns: (ColumnEntity | undefined)[];
 
   @OneToMany(() => TaskEntity, (task) => task.board, { cascade: true })
   @JoinColumn()

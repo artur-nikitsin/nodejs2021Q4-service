@@ -69,7 +69,7 @@ export class TasksService {
         if (deletedResult.raw.serverStatus === 2) {
           return {
             status: 200,
-            message: `User with id ${userId} successfully deleted`,
+            message: `Task with id ${userId} successfully deleted`,
           };
         }
       });
