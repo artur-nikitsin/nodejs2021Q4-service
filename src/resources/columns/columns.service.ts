@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ColumnEntity } from '../entities/column.entity';
-import Column from '../resources/columns/column.model';
+import { ColumnEntity } from '../../entities/column.entity';
+import Column from '../../models/column.model';
 
 @Injectable()
 export class ColumnsService {

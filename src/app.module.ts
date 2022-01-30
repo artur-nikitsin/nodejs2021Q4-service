@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
-import { TasksModule } from './tasks/tasks.module';
-import { BoardsModule } from './boards/boards.module';
-import { ColumnsModule } from './columns/columns.module';
-import { FilesModule } from './files/files.module';
+import { AuthModule } from './resources/auth/auth.module';
+import { UsersModule } from './resources/users/users.module';
+import { TasksModule } from './resources/tasks/tasks.module';
+import { BoardsModule } from './resources/boards/boards.module';
+import { ColumnsModule } from './resources/columns/columns.module';
+import { FilesModule } from './resources/files/files.module';
 
 @Module({
   imports: [

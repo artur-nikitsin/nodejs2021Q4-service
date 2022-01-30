@@ -1,5 +1,5 @@
 import { IsArray, IsNotEmpty, IsString } from 'class-validator';
-import Column from '../../resources/columns/column.model';
+import Column from '../../../models/column.model';
 
 export class UpdateBoardDto {
   @IsString()

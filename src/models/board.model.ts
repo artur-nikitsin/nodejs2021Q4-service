@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import Column from '../columns/column.model';
+import Column from './column.model';
 
 export interface BoardInterface {
   id: string;
