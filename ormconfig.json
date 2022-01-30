@@ -1,0 +1,16 @@
+{
+  "type": "postgres",
+  "host": "host.docker.internal",
+  "port": 5432,
+  "username": "postgres",
+  "password": "postgres",
+  "database": "appdb",
+  "insecureAuth": true,
+  "entities": ["dist/**/*.entity{.ts,.js}"],
+  "logging": true,
+  "cache": true,
+  "synchronize": true,
+  "migrationsTableName": "migrations_typeorm",
+  "migrations": ["dist/migration/*.js"],
+  "migrationsRun": true
+}
