@@ -7,7 +7,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-// import { LocalAuthGuard } from './guards/local-auth.guard';
 import { RefreshJwtAuthGuard } from './guards/refresh-jwt-auth.guard';
 
 @Controller('/login')
@@ -15,7 +14,6 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
-  // @UseGuards(LocalAuthGuard)
   @Post()
   async login(@Request() req: { login: string; password: string }) {
     const { login, password } = req;

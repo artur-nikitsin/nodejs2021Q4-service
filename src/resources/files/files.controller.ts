@@ -9,10 +9,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { editFileName } from './file-upload-utils/file-upload.utils';
-import {
-  ATTACHMENTS_FOLDER,
-  FILES_PATH,
-} from './constants/incidents-files.constants';
+import { ATTACHMENTS_FOLDER, FILES_PATH } from './constants/constants';
 import { FilesService } from './files.service';
 import { Auth } from '../auth/auth.decorator';
 import { Response } from 'express';
