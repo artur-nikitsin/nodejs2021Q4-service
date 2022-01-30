@@ -8,7 +8,7 @@ import { validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 
 @Injectable()
-export class InnerDataValidationPipe implements PipeTransform {
+export class ValidationPipe implements PipeTransform<never> {
   async transform(value: never, { metatype }: ArgumentMetadata) {
     if (!metatype || !this.toValidate(metatype)) {
       return value;
@@ -16,14 +16,7 @@ export class InnerDataValidationPipe implements PipeTransform {
     const object = plainToClass(metatype, value);
     const errors = await validate(object);
     if (errors.length > 0) {
-      const errorMessages = errors.map((error) => error.constraints);
-      const message = Object.assign({}, ...errorMessages);
-      const errorResponse = {
-        statusCode: 400,
-        error: 'Bad Request',
-        message,
-      };
-      throw new BadRequestException(errorResponse);
+      throw new BadRequestException('Validation failed');
     }
     return value;
   }

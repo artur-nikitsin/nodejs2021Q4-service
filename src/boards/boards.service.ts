@@ -7,6 +7,7 @@ import { BoardEntity } from '../entities/board.entity';
 // import { TasksService } from '../tasks/tasks.service';
 import { ColumnsService } from '../columns/columns.service';
 import { ColumnEntity } from '../entities/column.entity';
+// import { UserEntity } from '../resources/users/user.entity';
 // import { ColumnEntity } from '../entities/column.entity';
 // import { TaskEntity } from '../entities/task.entity';
 
@@ -105,6 +106,11 @@ export class BoardsService {
   }
 
   async deleteBoardById(boardId: string) {
-    return await this.boardsRepository.delete(boardId);
+    return await this.boardsRepository
+      .createQueryBuilder()
+      .delete()
+      .from(BoardEntity)
+      .where('id = :boardId', { boardId: boardId })
+      .execute();
   }
 }
